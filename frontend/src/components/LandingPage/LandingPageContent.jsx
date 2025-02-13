@@ -1,11 +1,75 @@
-import React from 'react'
+import React from "react";
 
 function LandingPageContent() {
-  return (
-    <div>
-      Lorem, ipsum dolor sit amet consectetur adipisicing elit. Repellat laborum sed magni saepe nobis quam quaerat iste qui? Asperiores, dolor rem soluta natus cupiditate repudiandae ea, corrupti quae enim voluptatum expedita unde, dolorem vero. Magnam eligendi modi exercitationem aperiam adipisci praesentium obcaecati, doloremque eaque velit alias consectetur libero voluptatum aut optio officia quas ex enim natus iste saepe recusandae voluptate odio! Minus quaerat incidunt tempora adipisci. Saepe deserunt quis veritatis odit! Dicta facere, aliquid sit labore quasi sed eum rerum voluptatum perferendis eveniet vel vero ullam enim repudiandae iusto autem et accusantium harum veniam non dolorum expedita ea ut. Impedit temporibus quia rem ipsa nam, eaque, animi officia eum deserunt minima quaerat a ea veniam alias possimus! Sint eligendi fuga voluptatibus dolorum nobis architecto eos dicta a reiciendis accusantium dolore nostrum aut soluta autem suscipit, odit saepe vel ab molestiae dolores, consequuntur non. Repellendus voluptates at doloremque consequuntur. Veritatis debitis harum laborum culpa dolorem vitae tenetur, totam ad laboriosam magni odio nihil ducimus eligendi repellendus recusandae, facilis quidem. Eum ducimus aut sit vero in, magnam vel quidem deleniti accusantium ipsa! Autem numquam expedita nesciunt, tempore cumque maxime quae qui praesentium est earum dolorem nemo quis similique laboriosam, sunt deleniti quo voluptate quisquam. Dignissimos voluptatum qui, sit, placeat provident reiciendis excepturi optio nesciunt ullam cum consectetur tempore exercitationem alias ad unde maiores ut aliquid, consequuntur laboriosam quod. Facere, distinctio voluptates dolorum iste perferendis nulla nam numquam! Voluptatum consequatur et, aspernatur debitis adipisci omnis doloribus non similique eum eaque facilis id, fuga in eos quis neque dolorem soluta sint repellat nulla sequi placeat cupiditate. Doloribus, ab placeat. Natus quaerat sint quidem. Quae velit temporibus suscipit voluptatibus dolor recusandae, mollitia ea explicabo eos consequatur vel sequi repudiandae totam magni eius? Possimus, quidem id aliquid veniam mollitia autem, dignissimos sint aliquam cumque culpa, similique at adipisci numquam maiores explicabo laudantium quam a neque. Accusamus, unde officia rem odio laudantium reprehenderit neque dicta odit nostrum vitae voluptatum doloremque nihil assumenda voluptatem exercitationem atque itaque necessitatibus illum commodi? Nulla, officiis. Perferendis aspernatur vero quis, maxime voluptatum expedita quaerat quos voluptatem itaque ab pariatur libero tempora dolor molestiae est maiores ratione. Perferendis commodi aliquid unde voluptate necessitatibus repellat exercitationem, pariatur nihil minima libero. Cupiditate eligendi dolores quas neque at, ducimus sed praesentium. Impedit assumenda provident iusto suscipit quibusdam placeat eaque deleniti exercitationem optio laborum? Quae doloremque vitae rem tenetur maiores exercitationem dicta. Dolorem sint alias earum autem ducimus vel aliquam maiores, nihil atque illum consectetur in suscipit incidunt, deleniti omnis voluptatum placeat sapiente ratione hic consequuntur numquam magnam nam. Consectetur maiores exercitationem tempora rem fugit est fuga ut, voluptatum beatae dolor libero aliquid culpa in eligendi voluptatem eius mollitia molestias modi illum laboriosam dolore? Rem, autem! Non aperiam hic dignissimos, laboriosam voluptates quasi accusantium distinctio reiciendis minima obcaecati eaque voluptas ea nobis facilis quia vero saepe illo tempore. Possimus nisi eligendi quibusdam, temporibus repudiandae voluptatum eaque tempora. Porro praesentium iste eum ea, animi consequatur tempore saepe fuga quaerat quo aliquam tempora nobis cumque velit optio dicta nulla adipisci. Tempore maxime sapiente perferendis quod aperiam aliquam doloribus saepe, temporibus sequi dolorem id, inventore facere maiores non soluta? Exercitationem pariatur sint autem tenetur vel dignissimos. Quos labore qui perferendis. Libero ducimus facere cupiditate maiores, saepe molestias quasi impedit ipsum deserunt officia obcaecati ratione. Repellendus nostrum ipsam, unde fugiat voluptates velit accusantium, iusto nulla quam ea corrupti, aliquid consectetur libero at! Provident, ab facere aliquam at minima sint mollitia dolor officia dolore eaque voluptatum eveniet, atque unde dolorum quas repellat, ducimus corrupti quidem iusto possimus labore debitis doloremque quod. Nemo necessitatibus suscipit expedita dolore dolorem repellat. Eligendi reprehenderit eveniet, tempore quo qui facilis, quis eum consectetur harum tenetur nemo vero nam tempora commodi itaque? Quae corrupti natus veritatis dicta repudiandae? Ratione, ab unde magnam veniam minus ullam pariatur molestiae. Tenetur totam voluptate repellat ullam molestias excepturi tempora deleniti, quia nemo enim ratione non quis, illum nobis, eum sit corporis error odio ex praesentium dignissimos sed? Nam aliquid pariatur culpa odit et vel officia deserunt exercitationem, velit amet aspernatur dolorum soluta? Corrupti necessitatibus officia quaerat! Consequatur ducimus consectetur possimus non cum doloribus corporis, recusandae ratione modi aspernatur tempora vitae harum veniam voluptatum sequi dolorem id aperiam dignissimos, ullam maxime odit ipsa molestias itaque ab. Officia perspiciatis, dolorum alias eius laboriosam adipisci quasi eaque ad blanditiis doloremque ipsam atque quod numquam eos mollitia enim quo inventore rerum labore! Ipsa facilis accusamus ut eveniet ab hic alias commodi laudantium sed cumque eius iste obcaecati aut, accusantium quibusdam deserunt natus aliquid, atque laboriosam dignissimos possimus quaerat? Modi amet labore quasi optio accusamus consectetur eum ad dolores cumque ipsam! Sunt libero molestiae expedita necessitatibus, similique rem! Ipsum, rerum? A ipsum cumque ea quisquam vitae iste iure, esse inventore eius nobis rem. Eaque, laudantium ab dignissimos, nam culpa at neque quae excepturi recusandae sapiente in rem illo suscipit amet sed libero molestias, placeat error iure. Earum blanditiis debitis, placeat reprehenderit quis aspernatur quos delectus, dolorem perferendis maxime deleniti est autem, totam atque exercitationem fugit. Corporis officia vero nostrum, suscipit, nesciunt praesentium quo cumque adipisci natus libero repellendus quas consectetur quisquam? Repudiandae quis corrupti deleniti delectus. Molestiae veritatis minima qui voluptatem, doloremque vero alias ab, autem delectus minus eveniet dolor velit eaque ad harum. Fuga enim beatae, quae sit non harum, nobis iure maiores quibusdam eveniet doloribus laboriosam! Commodi architecto excepturi exercitationem saepe perspiciatis eos corrupti? Eius, eaque vel qui a ex cum incidunt quae libero ratione ut dignissimos velit blanditiis quasi doloremque quibusdam dolor vero nemo provident optio consequatur alias consectetur sapiente. Aliquam qui, magni unde explicabo enim inventore ex adipisci architecto quos provident porro? Similique deleniti iste fugiat? Aut quidem, itaque ab ducimus aperiam dignissimos nisi corrupti repellendus dolores tempora soluta consectetur laboriosam incidunt eius cumque natus! Numquam magnam quidem voluptatum quibusdam neque iusto porro, quisquam eius ea ipsum ducimus quia eaque molestiae pariatur? Cumque odio, quia doloremque debitis fuga ea magnam ducimus corporis eum culpa quod possimus dolorem eos omnis asperiores laborum sed accusamus voluptatum qui esse. Itaque quasi necessitatibus quidem explicabo nostrum molestiae!
-    </div>
-  )
+    return (
+        <div className="max-w-4xl mx-auto p-6 space-y-8">
+            {/* Funny/Rude Welcome Heading */}
+            <h1 className="text-4xl font-bold text-center text-gray-800">
+                A Safe Haven for Your Random Curiosity
+            </h1>
+            
+            {/* Quote Section */}
+            <div className="text-center mt-2">
+                <p className="text-xl font-semibold text-gray-600 italic">
+                    "Somewhere, something incredible is waiting to be known."
+                </p>
+                <p className="text-lg font-medium text-gray-700">— Carl Sagan</p>
+                <p className="text-base text-gray-600 mt-1">(Congrats, you now have a fancy quote to throw into conversations and pretend you're deep.)</p>
+            </div>
+
+            {/* Motivation Section */}
+            <div className="bg-gray-100 p-6 rounded-xl shadow-md flex flex-col md:flex-row items-center gap-2">
+                <div className="md:w-1/2 text-lg text-gray-700 font-medium">
+                    <h2 className="text-2xl font-bold mb-3">Be Smart, Not Just a Specialist</h2>
+                    <p>
+                        Ever met someone who can talk about anything and thought, “Damn, I wanna be like that”? 
+                        Yeah, that’s the goal. Knowing random cool stuff makes you interesting, but let’s be honest, 
+                        no one wakes up thinking, “Let me casually study geology today.” Even if you do, where do you even start? 
+                        We get it—you want quick, digestible knowledge, not a PhD. And that’s exactly why we’re here.
+                    </p>
+                </div>
+                <div className="md:w-1/2 flex justify-center mt-4 md:mt-0 order-2 md:order-2">
+                    <img src="https://imgs.search.brave.com/8ss-E1FmRZyg6Hp60szI2hVnPTmiOHDzakIvRYv7vWc/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pbWcu/ZnJlZXBpay5jb20v/cHJlbWl1bS1waG90/by9tb3RpdmF0aW9u/LXN0cmF0ZWd5LWNv/YWNoaW5nLXRyYWlu/aW5nLXN1Y2Nlc3Mt/c3VjY2Vzc2Z1bC1i/dXNpbmVzcy1jb25j/ZXB0LW5vdGUtcGFw/ZXJfNzcwMTIzLTEz/NTYuanBnP3NlbXQ9/YWlzX2h5YnJpZA" alt="Motivation" className="rounded-lg shadow-md" />
+                </div>
+            </div>
+
+            {/* Problem Statement Section */}
+            <div className="bg-gray-100 p-6 rounded-xl shadow-md flex flex-col md:flex-row items-center gap-2">
+                <div className="md:w-1/2 flex justify-center mt-4 md:mt-0 order-2 md:order-1">
+                    <img src="https://imgs.search.brave.com/A3QDf_CQebxRwOzqt_1JMc7sWfbzkq1niZlzB1XvsYc/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzA5Lzg0LzE4LzQ4/LzM2MF9GXzk4NDE4/NDg0NF9GNFZrV1Mw/NjBFekVwdlZMdkNu/V0gzSXpqa2lSbEts/ZC5qcGc" alt="Problem" className="rounded-lg shadow-md" />
+                </div>
+                <div className="md:w-1/2 text-lg text-gray-700 font-medium order-1 md:order-2">
+                    <h2 className="text-2xl font-bold mb-3">Too Many Tabs, Too Little Sense</h2>
+                    <p>
+                        So you wanna get smarter but end up lost in a sea of
+                        random thoughts? Even if you pick a topic, finding an
+                        article that isn’t a snoozefest is another nightmare.
+                        Let’s be real—no one’s reading those tiny-font academic
+                        papers anymore. Lucky for you, we’re here to save your
+                        brain from getting any more useless than it already is.
+                    </p>
+                </div>
+            </div>
+
+            {/* Solution Section */}
+            <div className="bg-gray-100 p-6 rounded-xl shadow-md flex flex-col md:flex-row items-center">
+                <div className="md:w-1/2 text-lg text-gray-700 font-medium">
+                    <h2 className="text-2xl font-bold mb-3">
+                        Saving Your Brain, One Article at a Time
+                    </h2>
+                    <p>
+                        You want to learn cool stuff without feeling like you’re back in school, right? 
+                        We handpick bite-sized, actually fun-to-read articles that get you from “What even is this?” 
+                        to “Oh, I totally get it” in minutes. No complex jargon, no mind-numbing textbooks—just good 
+                        content that makes you smarter without the headache.
+                    </p>
+                </div>
+                <div className="md:w-1/2 flex justify-center mt-4 md:mt-0 gap-2">
+                    <img src="https://imgs.search.brave.com/uSgM5iSOnZWoz0qrn08-YotMKd_3DdZPWQuU3WMr6O0/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly90NC5m/dGNkbi5uZXQvanBn/LzAwLzk1LzExLzI3/LzM2MF9GXzk1MTEy/Nzk5X0h0M3AxSTM2/dzBuWDhPbWtKd2dC/Z3A3RDExMEdnS25u/LmpwZw" alt="Solution" className="rounded-lg shadow-md" />
+                </div>
+            </div>
+        </div>
+    );
 }
 
-export default LandingPageContent
+export default LandingPageContent;

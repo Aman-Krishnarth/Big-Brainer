@@ -102,7 +102,10 @@ function Login() {
                                             className="cursor-pointer flex justify-center items-center"
                                         >
                                             {showPassword ? (
-                                                <Eye size={28} />
+                                                <Eye
+                                                    size={28}
+                                                    title="lfsjksdlfds"
+                                                />
                                             ) : (
                                                 <EyeOff size={28} />
                                             )}
