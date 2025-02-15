@@ -3,6 +3,7 @@ const dotenv = require('dotenv');
 const cors = require('cors');
 const connectDb = require('./models/connectDB.js');
 const authRouter = require('./routes/authRouter.js');
+const otpRouter = require('./routes/otpRouter.js');
 
 dotenv.config();
 const app = express();
@@ -10,14 +11,18 @@ const app = express();
 // middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors())
+app.use(cors({
+  origin: 'http://localhost:5173',  // Only allow requests from this origin
+  credentials: true,  // Allow cookies to be sent with requests
+}));
 
 app.get('/', (req, res) => {
   res.send('SERVER STARTED');
 });
 
 // auth router
-app.get('/api/v1/auth', authRouter);
+app.use('/api/v1/auth', authRouter);
+app.use("/api/v1/otp", otpRouter);
 
 app.listen(process.env.PORT, () => {
     connectDb();

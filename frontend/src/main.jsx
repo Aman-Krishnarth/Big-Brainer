@@ -6,6 +6,7 @@ import LandingPage from "./components/LandingPage/LandingPage.jsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Login from "./components/AuthPages/Login/Login.jsx";
 import Signup from "./components/AuthPages/Signup/Signup.jsx";
+import Home from "./components/Home/Home.jsx";
 
 const router = createBrowserRouter([
     {
@@ -23,6 +24,10 @@ const router = createBrowserRouter([
             {
                 path: "/signup",
                 element: <Signup />,
+            },
+            {
+                path: "/home",
+                element: <Home />,
             },
         ],
     },

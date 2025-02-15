@@ -1,55 +1,94 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useRef } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { Eye, EyeOff, ArrowLeft } from "lucide-react";
+import axios from "axios";
 
-function Login() {
+function Signup() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [otp, setOtp] = useState(["", "", "", "", "", ""]);
     const [showPassword, setShowPassword] = useState(false);
+    const navigate = useNavigate();
+    const otpRefs = useRef([]);
 
     const handleChange = (e) => {
         if (e.target.name === "email") {
             setEmail(e.target.value);
-        } else {
+        } else if (e.target.name === "password") {
             setPassword(e.target.value);
         }
     };
 
-    const handleShowPassword = () => {
-        setShowPassword(!showPassword);
+    const handleOtpChange = (index, value) => {
+        if (/^[0-9]?$/.test(value)) {
+            // Allow only numbers
+            const newOtp = [...otp];
+            newOtp[index] = value;
+            setOtp(newOtp);
+
+            // Move to the next box automatically
+            if (value && index < otp.length - 1) {
+                otpRefs.current[index + 1]?.focus();
+            }
+        }
     };
 
-    const handleSubmit = (e) => {
+    function sendOtp() {
+
+        
+
+    }
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
+
+        console.log("call kar raha");
+
+        const result = await axios.post(
+            "http://localhost:8000/api/v1/auth/signup",
+            {
+                email,
+                password,
+                otp: otp.join(""), // Convert array to string
+            },
+            {
+                withCredentials: true,
+            }
+        );
+
+        console.log(result);
+
+        if (result.data.status) {
+            setTimeout(() => {
+                alert("User created successfully");
+                navigate("/login");
+            }, 2000);
+        }
     };
 
     return (
         <div className="relative">
-            <div className="h-screen bg-gradient-to-b from-blue-500 to-white fixed top-0 left-0 right-0 z-0">
-                {/* Background content */}
-            </div>
+            <div className="h-screen bg-gradient-to-b from-blue-500 to-white fixed top-0 left-0 right-0 z-0"></div>
 
-            <div className="relative z-10 min-h-screen flex items-center justify-center px-6">
+            <div className="relative z-10 min-h-screen flex flex-col lg:flex-row items-center justify-center px-6">
                 <div className="w-full max-w-7xl">
                     {/* Back to Main Page Link */}
                     <div className="text-left mb-4 hover:underline text-xl">
                         <Link
                             to="/"
-                            className="flex items-center text-white font-semibold "
+                            className="flex items-center text-white font-semibold"
                         >
-                            <ArrowLeft className="mr-1" />{" "}
-                            {/* Adds space between icon and text */}
-                            Back to Main Page
+                            <ArrowLeft className="mr-1" /> Back to Main Page
                         </Link>
                     </div>
 
-                    <div className="flex space-x-12">
+                    <div className="flex flex-col lg:flex-row space-x-0 lg:space-x-12 items-center lg:items-start">
                         {/* Left Side - Motivational Note */}
-                        <div className="w-1/2">
-                            <h1 className="text-4xl font-bold text-blue-800 mb-4">
+                        <div className="w-full lg:w-1/2 lg:mt-0 mt-6">
+                            <h1 className="text-4xl font-bold text-blue-800 mb-4 text-left lg:text-left">
                                 Welcome Aboard! 🎉
                             </h1>
-                            <p className="text-2xl text-gray-700 font-semibold tracking-wide">
+                            <p className="text-2xl text-gray-700 font-semibold tracking-wide text-left lg:text-left">
                                 It's truly impressive that you’re taking the
                                 first step. You’re either about to fall back
                                 into the group of losers... or join the ranks of
@@ -58,14 +97,13 @@ function Login() {
                         </div>
 
                         {/* Right Side - Signup Form */}
-                        <div className="w-1/2 bg-gradient-to-b from-blue-400 to-white p-6 rounded-lg shadow-lg">
+                        <div className="w-full lg:w-1/2 bg-gradient-to-b from-blue-400 to-white p-6 rounded-lg shadow-lg">
                             <form onSubmit={handleSubmit} className="space-y-6">
                                 <div className="bg-gray-200 p-6 rounded-lg shadow-sm">
                                     <h2 className="text-2xl font-semibold text-blue-700 mb-4">
                                         Continue with Email
                                     </h2>
 
-                                    {/* Email Input with Validation */}
                                     <input
                                         type="email"
                                         className="w-full p-3 mb-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
@@ -74,12 +112,11 @@ function Login() {
                                         value={email}
                                         onChange={handleChange}
                                         required
-                                        pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" // email validation regex
+                                        pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
                                         title="Please enter a valid email address"
                                     />
 
                                     <div className="grid grid-cols-[1fr_auto] justify-center items-center gap-2">
-                                        {/* Password Input with Validation */}
                                         <input
                                             type={`${
                                                 showPassword
@@ -92,13 +129,13 @@ function Login() {
                                             value={password}
                                             onChange={handleChange}
                                             required
-                                            minLength="6" // minimum length for password
+                                            minLength="6"
                                             title="Password must be at least 6 characters"
                                         />
-
-                                        {/* Eye Icon for Password Visibility */}
                                         <div
-                                            onClick={handleShowPassword}
+                                            onClick={() =>
+                                                setShowPassword(!showPassword)
+                                            }
                                             className="cursor-pointer flex justify-center items-center"
                                         >
                                             {showPassword ? (
@@ -109,42 +146,42 @@ function Login() {
                                         </div>
                                     </div>
 
-                                    {/* Signup Button */}
+                                    <button className="text-center cursor-pointer bg-blue-400 rounded px-2 py-3 font-semibold text-xl mx-auto block"
+                                    onClick={sendOtp}
+                                    >Verify account</button>
+
+                                    {/* OTP Verification Section */}
+                                    <h2 className="text-xl font-semibold text-blue-700 mb-2 text-center">
+                                        Enter OTP
+                                    </h2>
+                                    <div className="flex justify-center space-x-2 mb-4 flex-wrap md:flex-auto max-w-xs mx-auto">
+                                        {otp.map((digit, index) => (
+                                            <input
+                                                key={index}
+                                                type="text"
+                                                maxLength="1"
+                                                className="w-5 h-5 sm:w-7 sm:h-7 md:w-10 md:h-10  text-center text-xl border border-gray-600 rounded-md focus:ring-2 focus:ring-blue-500 outline-none gap-2 p-1"
+                                                value={digit}
+                                                onChange={(e) =>
+                                                    handleOtpChange(
+                                                        index,
+                                                        e.target.value
+                                                    )
+                                                }
+                                                ref={(el) =>
+                                                    (otpRefs.current[index] =
+                                                        el)
+                                                }
+                                            />
+                                        ))}
+                                    </div>
+
                                     <button
                                         type="submit"
                                         className="w-full bg-blue-500 text-white py-3 rounded-lg font-semibold hover:bg-blue-600 transition-all duration-200 cursor-pointer"
                                     >
                                         Signup
                                     </button>
-                                </div>
-
-                                <p className="text-center font-semibold text-xl text-[#665d5d]">
-                                    OR
-                                </p>
-
-                                <div className="bg-blue-50 p-6 rounded-lg shadow-sm">
-                                    {/* Google Login Button */}
-                                    <button className="w-full bg-white border border-gray-300 text-blue-600 py-3 rounded-lg font-semibold flex items-center justify-center space-x-2 cursor-pointer">
-                                        <img
-                                            src="https://imgs.search.brave.com/cMeR-TEzSzc3L_T_t4c0ZKSZu5B4BxkMPGrZ48urikE/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jZG4x/Lmljb25maW5kZXIu/Y29tL2RhdGEvaWNv/bnMvZ29vZ2xlLXMt/bG9nby8xNTAvR29v/Z2xlX0ljb25zLTA5/LTUxMi5wbmc"
-                                            alt="Google Logo"
-                                            className="w-6 h-6"
-                                        />
-                                        <span>Continue with Google</span>
-                                    </button>
-                                </div>
-
-                                <div className="text-center mt-4">
-                                    {/* Login Link */}
-                                    <p className="text-gray-600 text-lg">
-                                        Already have an account?{" "}
-                                        <Link
-                                            to="/login"
-                                            className="text-blue-500 font-semibold hover:underline"
-                                        >
-                                            Login now
-                                        </Link>
-                                    </p>
                                 </div>
                             </form>
                         </div>
@@ -155,4 +192,4 @@ function Login() {
     );
 }
 
-export default Login;
+export default Signup;

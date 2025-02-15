@@ -1,11 +1,13 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Eye, EyeOff, ArrowLeft } from "lucide-react";
+import axios from "axios";
 
 function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
+    const navigate = useNavigate();
 
     const handleChange = (e) => {
         if (e.target.name === "email") {
@@ -19,8 +21,28 @@ function Login() {
         setShowPassword(!showPassword);
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
+
+        console.log("call kar raha");
+
+        const result = await axios.post(
+            "http://localhost:8000/api/v1/auth/signup",
+            {
+                email,
+                password,
+            },
+            {
+                withCredentials: true,
+            }
+        );
+
+        console.log(result);
+
+        if(result.data.status){
+            navigate("/home");
+        }
+
     };
 
     return (
