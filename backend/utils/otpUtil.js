@@ -1,7 +1,7 @@
 const otps = {};
 
 const generateOTP = () => {
-    const otp = "";
+    let otp = "";
     for (let i = 0; i < 6; i++) {
         otp += Math.floor(Math.random() * 10);
     }
@@ -15,7 +15,7 @@ const setOtp = (email) => {
     setTimeout(() => {
         delete otps[email];
     }, OTP_EXPIRATION_TIME);
-    return otps[email];
+    // return otps[email];
 };
 
 const getOtp = (email) => {

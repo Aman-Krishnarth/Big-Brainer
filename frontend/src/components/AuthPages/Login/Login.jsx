@@ -27,7 +27,7 @@ function Login() {
         console.log("call kar raha");
 
         const result = await axios.post(
-            "http://localhost:8000/api/v1/auth/signup",
+            "http://localhost:8000/api/v1/auth/login",
             {
                 email,
                 password,
@@ -38,6 +38,8 @@ function Login() {
         );
 
         console.log(result);
+
+        alert(result.data.message)
 
         if(result.data.status){
             navigate("/home");

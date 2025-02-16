@@ -1,4 +1,5 @@
 const Joi = require("joi");
+const User = require("../models/User/User.js")
 const { getOtp } = require("../utils/otpUtil");
 
 const validateLogin = async (req, res, next) => {
@@ -22,14 +23,23 @@ const validateLogin = async (req, res, next) => {
         // Validate request body against the schema
         await schema.validateAsync({ email, password });
 
-        // check if user already exists
+        // check if user exists
+        const user = await User.findOne({email});
+
+        if(!user){
+            return res.json({
+                status: false,
+                message: "User does not exist"
+            })
+        }
+
 
         // If validation is successful, move to next middleware
         next();
     } catch (error) {
         // Handle validation error and send the custom message to the frontend
         return res.status(400).json({
-            success: false,
+            status: false,
             message: error.details[0].message, // This will send the custom error message
         });
     }
@@ -58,9 +68,14 @@ const validateSignup = async (req, res, next) => {
 
         // verify otp
 
-        if (otp !== getOtp(email)) {
-            return res.status(400).json({
-                success: false,
+        const correctOtp = getOtp(email);
+
+        console.log("correct otp: ", correctOtp);
+        console.log("otp: ", otp);
+
+        if (!correctOtp || correctOtp !== otp) {
+            return res.json({
+                status: false,
                 message: "Invalid OTP",
             });
         }
@@ -70,7 +85,7 @@ const validateSignup = async (req, res, next) => {
     } catch (error) {
         // Handle validation error and send the custom message to the frontend
         return res.status(400).json({
-            success: false,
+            status: false,
             message: error.details[0].message, // This will send the custom error message
         });
     }
