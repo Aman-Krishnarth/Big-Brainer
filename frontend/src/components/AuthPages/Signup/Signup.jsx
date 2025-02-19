@@ -41,7 +41,7 @@ function Signup() {
 
         setSendingOtp(true);
         const result = await axios.post(
-            "http://localhost:8000/api/v1/otp/sendOtp",
+            `${import.meta.env.VITE_BACKEND_URL}/otp/sendOtp`,
             { email }
         );
         setSendingOtp(false);
@@ -51,7 +51,7 @@ function Signup() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const result = await axios.post(
-            "http://localhost:8000/api/v1/auth/signup",
+            `${import.meta.env.VITE_BACKEND_URL}/auth/signup`,
             { email, password, otp: otp.join("") },
             { withCredentials: true }
         );

@@ -24,10 +24,10 @@ function Login() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        console.log("call kar raha");
+        console.log(`${import.meta.env.VITE_BACKEND_URL}/auth/login`);
 
         const result = await axios.post(
-            "http://localhost:8000/api/v1/auth/login",
+            `${import.meta.env.VITE_BACKEND_URL}/auth/login`,
             {
                 email,
                 password,

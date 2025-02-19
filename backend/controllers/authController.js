@@ -10,17 +10,16 @@ const signup = async (req, res) => {
     try {
         const { email, password } = req.body;
 
-        bcrypt.hash(password,10,async (err, hash)=>{
-            if(err){
+        bcrypt.hash(password, 10, async (err, hash) => {
+            if (err) {
                 console.log("SIGNUP BCRYPT ERR");
                 return res.json({
                     status: false,
-                    message: "Something went wrong"
-                })
+                    message: "Something went wrong",
+                });
             }
-            const user = await User.create({ email, password:hash });
-        })
-
+            const user = await User.create({ email, password: hash });
+        });
 
         return res.status(200).json({
             status: true,
@@ -87,7 +86,29 @@ const login = async (req, res) => {
     }
 };
 
+const logout = async (req, res) => {
+    try {
+        res.clearCookie("token", {
+            httpOnly: true,
+            sameSite: "Strict",
+            // secure: process.env.NODE_ENV === "production", // Ensure this is true in production
+        });
+
+        return res.json({
+            status: true,
+            message: "Logged out successfully",
+        });
+    } catch (error) {
+        console.log("LOGOUT ERROR", error);
+        return res.status(500).json({
+            status: false,
+            message: "Something went wrong",
+        });
+    }
+};
+
 module.exports = {
     login,
     signup,
+    logout,
 };
