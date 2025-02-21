@@ -32,6 +32,7 @@ function Home() {
         {
             btnText: "Feedback",
             classes: "",
+            navigateTo: "/feedback"
         },
         {
             btnText: "Ask AI",
@@ -103,6 +104,7 @@ function Home() {
                             btnText={btn.btnText}
                             classes={btn.classes}
                             functionToTrigger={btn.functionToTrigger}
+                            navigateTo={btn.navigateTo}
                             key={k}
                         />
                     ))}

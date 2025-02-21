@@ -38,10 +38,18 @@ const sendMail = async (email) => {
 const emailFeedback = async (email, subject, content) => {
     try {
         const mailOptions = {
-            from: process.env.EMAIL_USER, // The sender's email (using environment variable)
-            to: email, // Recipient's email (from the variable 'email')
+            from: email, // The sender's email (using environment variable)
+            to: process.env.EMAIL_USER, // Recipient's email (from the variable 'email')
             subject,
-            content,
+            html: `
+    <div style="font-family: Arial, sans-serif; padding: 20px; background-color: #f9f9f9; border-radius: 8px;">
+        <h2 style="color: #4CAF50; text-align: center;">Feedback Received</h2>
+        <h3 style="color: #333; text-align: center;">Feedback from: <span style="font-weight: bold; color: #007BFF;">${email}</span></h3>
+        <p style="font-size: 16px; color: #555; line-height: 1.6; text-align: left;">
+            ${content}
+        </p>
+    </div>
+`,
         };
 
         await transporter.sendMail(mailOptions);

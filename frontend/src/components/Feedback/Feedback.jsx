@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { Loader2 } from "lucide-react"; // Importing a loading icon
 
 function Feedback() {
     const [subject, setSubject] = useState("");
     const [content, setContent] = useState("");
+    const [sending, setSending] = useState(false);
 
     const handleChange = (e) => {
         if (e.target.id === "subject") {
@@ -13,11 +15,34 @@ function Feedback() {
         }
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
+        setSending(true);
 
-        console.log(subject);
-        console.log(content);
+        try {
+            const result = await axios.post(
+                `${import.meta.env.VITE_BACKEND_URL}/feedback`,
+                { subject, content },
+                { withCredentials: true }
+            );
+
+            console.log(result);
+
+            if (!result.data.status) {
+                alert(result.data.message);
+                setSending(false);
+                return;
+            }
+
+            alert("come back later with some more useful and good feedback.");
+
+            setSubject("");
+            setContent("");
+            setSending(false);
+        } catch (error) {
+            console.error("Error submitting feedback:", error);
+            alert("Something went wrong. Try again later.");
+        }
     };
 
     return (
@@ -31,10 +56,10 @@ function Feedback() {
                 {/* Paragraph */}
                 <p className="text-gray-300 text-center mb-6 text-lg">
                     Wow, you actually care enough to leave feedback? We’re
-                    touched. But seriously, don’t just smash your keyboard—
-                    write something that makes sense. Otherwise, you’re just
-                    wasting both our time and my server’s processing power.
-                    Thanks for being (hopefully) useful!
+                    touched. But seriously, don’t just smash your keyboard—write
+                    something that makes sense. Otherwise, you’re just wasting
+                    both our time and my server’s processing power. Thanks for
+                    being (hopefully) useful!
                 </p>
 
                 {/* Form */}
@@ -72,9 +97,21 @@ function Feedback() {
 
                     <button
                         type="submit"
-                        className="w-full bg-[#32CD32] text-black text-lg font-semibold py-3 rounded-lg hover:bg-[#28A428] transition-transform transform hover:scale-105"
+                        disabled={sending}
+                        className={`w-full flex items-center justify-center gap-2 bg-[#32CD32] text-black text-lg font-semibold py-3 rounded-lg transition-transform transform hover:scale-105 ${
+                            sending
+                                ? "opacity-75 cursor-not-allowed"
+                                : "hover:bg-[#28A428]"
+                        }`}
                     >
-                        Submit & Hope We Care
+                        {sending ? (
+                            <>
+                                <Loader2 className="animate-spin" size={20} />
+                                Submitting...
+                            </>
+                        ) : (
+                            "Submit & Hope We Care"
+                        )}
                     </button>
                 </form>
             </div>

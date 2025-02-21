@@ -20,6 +20,7 @@ const sendFeedback = async (req, res) => {
         });
     } catch (error) {
         console.log("SEND FEEDBACK CATCH");
+        console.log(error)
         return res.json({
             status: false,
             message: "Something went wrong",
