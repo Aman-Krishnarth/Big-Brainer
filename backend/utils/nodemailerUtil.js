@@ -35,4 +35,21 @@ const sendMail = async (email) => {
     }
 };
 
-module.exports = { sendMail };
+const emailFeedback = async (email, subject, content) => {
+    try {
+        const mailOptions = {
+            from: process.env.EMAIL_USER, // The sender's email (using environment variable)
+            to: email, // Recipient's email (from the variable 'email')
+            subject,
+            content,
+        };
+
+        await transporter.sendMail(mailOptions);
+
+        console.log("EMAILED FEEDBACK SUCCESSFULLY");
+    } catch (error) {
+        console.log("EMAIL FEEDBACK CATCH");
+    }
+};
+
+module.exports = { sendMail, emailFeedback };

@@ -4,6 +4,7 @@ const cors = require('cors');
 const connectDb = require('./models/connectDB.js');
 const authRouter = require('./routes/authRouter.js');
 const otpRouter = require('./routes/otpRouter.js');
+const feedbackRouter = require("./routes/feedbackRouter.js")
 
 dotenv.config();
 const app = express();
@@ -23,6 +24,7 @@ app.get('/', (req, res) => {
 // auth router
 app.use('/api/v1/auth', authRouter);
 app.use("/api/v1/otp", otpRouter);
+app.use("/api/v1/feedback", feedbackRouter)
 
 app.listen(process.env.PORT, () => {
     connectDb();
