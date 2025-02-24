@@ -1,0 +1,101 @@
+const User = require("../models/User/User.js");
+const Article = require("../models/Article/Article.js");
+const jwt = require("jsonwebtoken");
+
+const createArticle = async (req, res) => {
+    try {
+        const { title, excerpt, content, tags } = req.body;
+
+        // Check if token exists
+        if (!req.cookies.token) {
+            return res
+                .status(401)
+                .json({
+                    status: false,
+                    message: "Unauthorized. No token provided.",
+                });
+        }
+
+        // Verify token
+        const data = jwt.verify(req.cookies.token, process.env.JWT_SECRET);
+
+        // Fetch the user
+        const user = await User.findById(data.id);
+        if (!user) {
+            return res
+                .status(404)
+                .json({ status: false, message: "User not found." });
+        }
+
+        // Create the article
+        const newArticle = await Article.create({
+            title,
+            excerpt,
+            content,
+            tags,
+            author: user._id,
+        });
+
+        return res.status(201).json({
+            status: true,
+            message: "Article created successfully!",
+            article: newArticle,
+        });
+    } catch (error) {
+        console.error("Error creating article:", error);
+        return res.status(500).json({
+            status: false,
+            message: "Something went wrong. Try again later.",
+        });
+    }
+};
+
+const getAllArticles = async (req, res) => {
+    try {
+        const articles = await Article.find(
+            {},
+            {
+                content: 0,
+            }
+        );
+
+        return res.status(200).json({
+            status: true,
+            message: "Articles fetched successfully",
+            articles,
+        });
+    } catch (error) {
+        console.log("GET ALL ARTICLES CATCH");
+        return res.json(500).json({
+            status: false,
+            message: "Something went wrong",
+        });
+    }
+};
+
+const getSpecificArticle = async (req, res) => {
+    try {
+        const articleId = req.params.id;
+
+        const article = await Article.findById(articleId);
+
+        return res.status(200).json({
+            status: true,
+            message: "Article fetched successfully",
+            article,
+        });
+    } catch (error) {
+        console.log("GET SPECIFIC ARTICLE CATCH");
+
+        return res.status(500).json({
+            status: false,
+            message: "Something went wrong",
+        });
+    }
+};
+
+module.exports = {
+    createArticle,
+    getAllArticles,
+    getSpecificArticle,
+};

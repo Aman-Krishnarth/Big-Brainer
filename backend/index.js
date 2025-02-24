@@ -5,6 +5,7 @@ const connectDb = require("./models/connectDB.js");
 const authRouter = require("./routes/authRouter.js");
 const otpRouter = require("./routes/otpRouter.js");
 const feedbackRouter = require("./routes/feedbackRouter.js");
+const articleRouter = require("./routes/articleRouter.js");
 const cookieParser = require("cookie-parser");
 
 dotenv.config();
@@ -29,6 +30,7 @@ app.get("/", (req, res) => {
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/otp", otpRouter);
 app.use("/api/v1/feedback", feedbackRouter);
+app.use("api/v1/article", articleRouter);
 
 app.listen(process.env.PORT, () => {
     connectDb();
