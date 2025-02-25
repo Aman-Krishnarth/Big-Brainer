@@ -56,8 +56,9 @@ const getAllArticles = async (req, res) => {
             {},
             {
                 content: 0,
+                updatedAt:0
             }
-        );
+        ).populate("author","email")
 
         return res.status(200).json({
             status: true,
