@@ -1,9 +1,15 @@
 import React, { useEffect, useState } from "react";
 import Article from "./Article.jsx";
 import axios from "axios";
+import { useSelector, useDispatch } from "react-redux";
+import { setArticles } from "../../../redux/slices/articleSlice.js";
 
 function AllArticles() {
-    const [articles, setArticles] = useState([]);
+    // const [articles, setArticles] = useState([]);
+
+    const articles = useSelector((state) => state.article.articles);
+
+    console.log("all articles mein hu");
 
     useEffect(() => {
         (async function fetchArticles() {
@@ -13,13 +19,15 @@ function AllArticles() {
                 `${import.meta.env.VITE_BACKEND_URL}/article`
             );
 
+            console.log("ARTICLES AAYE HAI");
+
             console.log(result);
 
             console.log(result.data.articles);
 
             console.log(Array.isArray(result.data.articles));
 
-            setArticles(result.data.articles)
+            setArticles(result.data.articles);
 
             // setArticles(result.data.articles)
         })();

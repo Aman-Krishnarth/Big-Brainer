@@ -8,7 +8,7 @@ const generateToken = (id) => {
 
 const signup = async (req, res) => {
     try {
-        const { email, password } = req.body;
+        const { email, password, username } = req.body;
 
         bcrypt.hash(password, 10, async (err, hash) => {
             if (err) {
@@ -18,7 +18,7 @@ const signup = async (req, res) => {
                     message: "Something went wrong",
                 });
             }
-            const user = await User.create({ email, password: hash });
+            const user = await User.create({ email, password: hash, username });
         });
 
         return res.status(200).json({
@@ -67,9 +67,15 @@ const login = async (req, res) => {
                 maxAge: 3600000, // Token expires after 1 hour
             });
 
+            const retUser = {
+                id: user._id,
+                username: user.username
+            };
+
             return res.json({
                 status: true,
                 message: "Logged in successfully",
+                retUser
             });
         } else {
             return res.json({

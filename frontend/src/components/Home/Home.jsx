@@ -2,11 +2,14 @@ import React, { useState } from "react";
 import SidebarBtn from "./SidebarBtn";
 import { Menu, X } from "lucide-react";
 import { Outlet, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from 'react-redux'
 import axios from "axios";
+import { setUser } from "../../redux/slices/authSlice";
 
 function Home() {
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const navigate = useNavigate();
+    const dispatch = useDispatch()
 
     const handleLogout = async (e) => {
         e.preventDefault();
@@ -23,6 +26,7 @@ function Home() {
 
         if (result.data.status) {
             navigate("/");
+            dispatch(setUser(null))
         }
     };
 
@@ -43,6 +47,10 @@ function Home() {
             functionToTrigger: handleLogout,
         },
     ];
+
+    const user = useSelector(state => state.auth.user)
+    console.log("USER AAYA HAI FROM STORE")
+    console.log(user)
 
     return (
         <div className="bg-[#212121] text-[#F9F9F9] min-h-lvh flex">

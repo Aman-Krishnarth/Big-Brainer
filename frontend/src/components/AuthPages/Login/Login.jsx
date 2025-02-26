@@ -1,13 +1,17 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Eye, EyeOff, ArrowLeft } from "lucide-react";
+import {useDispatch} from "react-redux"
 import axios from "axios";
+import { setUser } from "../../../redux/slices/authSlice";
 
 function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
     const navigate = useNavigate();
+
+    const dispatch = useDispatch();
 
     const handleChange = (e) => {
         if (e.target.name === "email") {
@@ -40,6 +44,8 @@ function Login() {
         console.log(result);
 
         alert(result.data.message)
+
+        dispatch(setUser(result.data.retUser))
 
         if(result.data.status){
             navigate("/home");

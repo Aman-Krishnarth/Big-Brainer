@@ -6,6 +6,7 @@ import axios from "axios";
 function Signup() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [username, setUsername] = useState("");
     const [otp, setOtp] = useState(["", "", "", "", "", ""]);
     const [showPassword, setShowPassword] = useState(false);
     const [otpSent, setOtpSent] = useState(false);
@@ -18,6 +19,8 @@ function Signup() {
             setEmail(e.target.value);
         } else if (e.target.name === "password") {
             setPassword(e.target.value);
+        } else if (e.target.name === "username") {
+            setUsername(e.target.value);
         }
     };
 
@@ -52,7 +55,7 @@ function Signup() {
         e.preventDefault();
         const result = await axios.post(
             `${import.meta.env.VITE_BACKEND_URL}/auth/signup`,
-            { email, password, otp: otp.join("") },
+            { email, password, otp: otp.join(""), username },
             { withCredentials: true }
         );
 
@@ -89,7 +92,10 @@ function Signup() {
                                 Welcome Aboard! 🎉
                             </h1>
                             <p className="text-2xl text-gray-700 font-semibold tracking-wide">
-                                It's truly impressive that you’re taking the first step. You’re either about to fall back into the group of losers... or join the ranks of the intellectuals. Your move. Make it count.
+                                It's truly impressive that you’re taking the
+                                first step. You’re either about to fall back
+                                into the group of losers... or join the ranks of
+                                the intellectuals. Your move. Make it count.
                             </p>
                         </div>
 
@@ -102,6 +108,15 @@ function Signup() {
 
                                     {/* Email Input with Validation */}
                                     <input
+                                        type="text"
+                                        className="w-full p-3 mb-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+                                        placeholder="What do you like to be called?"
+                                        name="username"
+                                        value={username}
+                                        onChange={handleChange}
+                                        required
+                                    />
+                                    <input
                                         type="email"
                                         className="w-full p-3 mb-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
                                         placeholder="Email"
@@ -113,8 +128,13 @@ function Signup() {
 
                                     <div className="grid grid-cols-[1fr_auto] justify-center items-center gap-2">
                                         {/* Password Input with Validation */}
+
                                         <input
-                                            type={showPassword ? "text" : "password"}
+                                            type={
+                                                showPassword
+                                                    ? "text"
+                                                    : "password"
+                                            }
                                             className="w-full p-3 mb-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
                                             placeholder="Password"
                                             name="password"
@@ -125,10 +145,16 @@ function Signup() {
 
                                         {/* Eye Icon for Password Visibility */}
                                         <div
-                                            onClick={() => setShowPassword(!showPassword)}
+                                            onClick={() =>
+                                                setShowPassword(!showPassword)
+                                            }
                                             className="cursor-pointer flex justify-center items-center"
                                         >
-                                            {showPassword ? <Eye size={28} /> : <EyeOff size={28} />}
+                                            {showPassword ? (
+                                                <Eye size={28} />
+                                            ) : (
+                                                <EyeOff size={28} />
+                                            )}
                                         </div>
                                     </div>
 
@@ -181,8 +207,16 @@ function Signup() {
                                                 maxLength="1"
                                                 className="w-10 h-10 text-center text-xl border border-gray-600 rounded-md focus:ring-2 focus:ring-blue-500 outline-none"
                                                 value={digit}
-                                                onChange={(e) => handleOtpChange(index, e.target.value)}
-                                                ref={(el) => (otpRefs.current[index] = el)}
+                                                onChange={(e) =>
+                                                    handleOtpChange(
+                                                        index,
+                                                        e.target.value
+                                                    )
+                                                }
+                                                ref={(el) =>
+                                                    (otpRefs.current[index] =
+                                                        el)
+                                                }
                                             />
                                         ))}
                                     </div>
