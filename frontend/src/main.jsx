@@ -10,6 +10,8 @@ import Home from "./components/Home/Home.jsx";
 import Feedback from "./components/Feedback/Feedback.jsx";
 import AllArticles from "./components/Home/ArticleList/AllArticles.jsx";
 import SubmitArticle from "./components/Home/SubmitArticle/SubmitArticle.jsx";
+import { Provider } from "react-redux";
+import store from "./redux/store.js";
 
 const router = createBrowserRouter([
     {
@@ -52,6 +54,8 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById("root")).render(
     <StrictMode>
-        <RouterProvider router={router} />
+        <Provider store={store}>
+            <RouterProvider router={router} />
+        </Provider>
     </StrictMode>
 );
