@@ -6,7 +6,7 @@ const askAi = async (req, res) => {
 
         console.log(prompt)
 
-        const result = await generateAIContent(`answer this question: ${prompt}. return the response in html format so that i can just insert this result directly on my webpage`);
+        const result = await generateAIContent(`answer this question: ${prompt}. Return a message so that i can just directly show it on the frontend. don't use any escape characters. i just want a good response.`);
 
         console.log(result);
 
