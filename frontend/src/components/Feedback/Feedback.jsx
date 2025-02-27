@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Loader2 } from "lucide-react"; // Importing a loading icon
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 function Feedback() {
     const [subject, setSubject] = useState("");
@@ -14,6 +16,9 @@ function Feedback() {
             setContent(e.target.value);
         }
     };
+    const user = useSelector(state => state.auth.user);
+
+    const navigate = useNavigate()
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -44,6 +49,12 @@ function Feedback() {
             alert("Something went wrong. Try again later.");
         }
     };
+
+    useEffect(()=>{
+        if(!user){
+            navigate("/")
+        }
+    },[])
 
     return (
         <div className="flex justify-center items-center min-h-screen bg-[#1F1F1F] text-white p-6">

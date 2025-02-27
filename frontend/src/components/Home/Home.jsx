@@ -12,6 +12,7 @@ function Home() {
     const [messages, setMessages] = useState([]);
     const [input, setInput] = useState("");
     const chatContainerRef = useRef(null);
+    const user = useSelector((state) => state.auth.user);
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
@@ -51,7 +52,7 @@ function Home() {
         },
     ];
 
-    const user = useSelector((state) => state.auth.user);
+    
 
     const handleSendMessage = async () => {
         if (!input.trim()) return;

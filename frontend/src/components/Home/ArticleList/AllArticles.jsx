@@ -3,12 +3,15 @@ import Article from "./Article.jsx";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import { setArticles } from "../../../redux/slices/articleSlice.js";
+import { useNavigate } from "react-router-dom";
 
 function AllArticles() {
     // const [articles, setArticles] = useState([]);
 
     const articles = useSelector((state) => state.article.articles);
+    const user = useSelector(state => state.auth.user)
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     console.log("all articles mein hu");
 
@@ -34,10 +37,11 @@ function AllArticles() {
         })();
     }, []);
 
-    useEffect(() => {
-        console.log("articles change hue hai");
-        console.log(articles);
-    }, [articles]);
+    useEffect(()=>{
+        if(!user){
+            navigate("/")
+        }
+    },[])
 
     return (
         <div className="p-3 flex flex-col gap-4">

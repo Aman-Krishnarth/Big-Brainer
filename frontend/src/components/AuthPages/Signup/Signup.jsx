@@ -1,7 +1,8 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Eye, EyeOff, ArrowLeft } from "lucide-react";
 import axios from "axios";
+import { useSelector } from "react-redux";
 
 function Signup() {
     const [email, setEmail] = useState("");
@@ -11,6 +12,7 @@ function Signup() {
     const [showPassword, setShowPassword] = useState(false);
     const [otpSent, setOtpSent] = useState(false);
     const [sendingOtp, setSendingOtp] = useState(false);
+    const user = useSelector(store => store.auth.user);
     const navigate = useNavigate();
     const otpRefs = useRef([]);
 
@@ -66,6 +68,12 @@ function Signup() {
             }, 2000);
         }
     };
+
+    useEffect(()=>{
+        if(user){
+            navigate("/home")
+        }
+    },[])
 
     return (
         <div className="relative">

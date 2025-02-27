@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 function SubmitArticle() {
     const [title, setTitle] = useState("");
@@ -7,8 +9,15 @@ function SubmitArticle() {
     const [content, setContent] = useState("");
     const [tags, setTags] = useState([]);
     const [sending, setSending] = useState(false);
-
-    const presentTags = ["Science", "History", "Technology", "Philosophy", "Random Fun"];
+    const presentTags = [
+        "Science",
+        "History",
+        "Technology",
+        "Philosophy",
+        "Random Fun",
+    ];
+    const user = useSelector((state) => state.auth.user);
+    const navigate = useNavigate();
 
     const handleTagSelect = (e) => {
         const selectedTag = e.target.value;
@@ -18,7 +27,7 @@ function SubmitArticle() {
     };
 
     const removeTag = (tagToRemove) => {
-        setTags(tags.filter(tag => tag !== tagToRemove));
+        setTags(tags.filter((tag) => tag !== tagToRemove));
     };
 
     const handleSubmit = async (e) => {
@@ -41,6 +50,12 @@ function SubmitArticle() {
             setTags([]);
         }
     };
+
+    useEffect(() => {
+        if (!user) {
+            navigate("/");
+        }
+    });
 
     return (
         <div className="flex justify-center items-center bg-[#1F1F1F] text-white ">
@@ -107,15 +122,26 @@ function SubmitArticle() {
                                 Select a tag
                             </option>
                             {presentTags.map((tag, index) => (
-                                <option key={index} value={tag}>{tag}</option>
+                                <option key={index} value={tag}>
+                                    {tag}
+                                </option>
                             ))}
                         </select>
                         {/* Display selected tags */}
                         <div className="flex flex-wrap gap-2 mt-2">
                             {tags.map((tag, index) => (
-                                <div key={index} className="bg-[#32CD32] text-black px-3 py-1 rounded-full text-sm flex items-center gap-2">
+                                <div
+                                    key={index}
+                                    className="bg-[#32CD32] text-black px-3 py-1 rounded-full text-sm flex items-center gap-2"
+                                >
                                     {tag}
-                                    <button type="button" onClick={() => removeTag(tag)} className="text-black font-bold cursor-pointer hover:text-white text-lg hover:scale-110 transition-all duration-200">×</button>
+                                    <button
+                                        type="button"
+                                        onClick={() => removeTag(tag)}
+                                        className="text-black font-bold cursor-pointer hover:text-white text-lg hover:scale-110 transition-all duration-200"
+                                    >
+                                        ×
+                                    </button>
                                 </div>
                             ))}
                         </div>

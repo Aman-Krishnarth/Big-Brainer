@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Eye, EyeOff, ArrowLeft } from "lucide-react";
-import {useDispatch} from "react-redux"
+import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { setUser } from "../../../redux/slices/authSlice";
 
@@ -9,6 +9,7 @@ function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
+    const user = useSelector((store) => store.auth.user);
     const navigate = useNavigate();
 
     const dispatch = useDispatch();
@@ -43,15 +44,20 @@ function Login() {
 
         console.log(result);
 
-        alert(result.data.message)
+        alert(result.data.message);
 
-        dispatch(setUser(result.data.retUser))
+        dispatch(setUser(result.data.retUser));
 
-        if(result.data.status){
+        if (result.data.status) {
             navigate("/home");
         }
-
     };
+
+    useEffect(() => {
+        if (user) {
+            navigate("/home");
+        }
+    });
 
     return (
         <div className="relative">
