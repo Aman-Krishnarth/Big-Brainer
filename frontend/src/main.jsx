@@ -12,6 +12,9 @@ import AllArticles from "./components/Home/ArticleList/AllArticles.jsx";
 import SubmitArticle from "./components/Home/SubmitArticle/SubmitArticle.jsx";
 import { Provider } from "react-redux";
 import store from "./redux/store.js";
+import { PersistGate } from "redux-persist/integration/react";
+import { persistStore } from "redux-persist";
+let persistor = persistStore(store)
 
 const router = createBrowserRouter([
     {
@@ -55,7 +58,9 @@ const router = createBrowserRouter([
 createRoot(document.getElementById("root")).render(
     <StrictMode>
         <Provider store={store}>
-            <RouterProvider router={router} />
+            <PersistGate loading={null} persistor={persistor}>
+                <RouterProvider router={router} />
+            </PersistGate>
         </Provider>
     </StrictMode>
 );

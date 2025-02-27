@@ -8,6 +8,7 @@ function AllArticles() {
     // const [articles, setArticles] = useState([]);
 
     const articles = useSelector((state) => state.article.articles);
+    const dispatch = useDispatch();
 
     console.log("all articles mein hu");
 
@@ -27,7 +28,7 @@ function AllArticles() {
 
             console.log(Array.isArray(result.data.articles));
 
-            setArticles(result.data.articles);
+            dispatch(setArticles(result.data.articles));
 
             // setArticles(result.data.articles)
         })();

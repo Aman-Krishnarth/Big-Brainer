@@ -27,8 +27,8 @@ function Article({article, number}) {
                 Topics
 
                 {
-                    article.tags.map((topic)=>{
-                        return <TopicsSpan topic={topic}/>
+                    article.tags.map((topic, index)=>{
+                        return <TopicsSpan topic={topic} key={index}/>
                     })
                 }
 
