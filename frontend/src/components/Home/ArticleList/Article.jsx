@@ -1,7 +1,11 @@
 import React from "react";
 import TopicsSpan from "../TopicsSpan";
+import { useNavigate } from "react-router-dom";
 
 function Article({ article, number }) {
+
+    const navigate = useNavigate();
+
     function formatDate(dateString) {
         const date = new Date(dateString); // Create a Date object from the string
 
@@ -12,8 +16,14 @@ function Article({ article, number }) {
         return `${day}-${month}-${year}`; // Return the formatted date
     }
 
+    function handleArticleClick(){
+        navigate(`/home/article/${article._id}`)
+    }
+
     return (
-        <div className="bg-[#383737] hover:bg-[#454444] hover:scale-105 transition-all duration-300 cursor-pointer p-3 rounded-3xl flex flex-col gap-3 my-2">
+        <div className="bg-[#383737] hover:bg-[#454444] hover:scale-105 transition-all duration-300 cursor-pointer p-3 rounded-3xl flex flex-col gap-3 my-2"
+        onClick={handleArticleClick}
+        >
             <h3 className="text-lg font-semibold">
                 {" "}
                 {number}. {article.title}

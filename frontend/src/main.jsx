@@ -14,6 +14,7 @@ import { Provider } from "react-redux";
 import store from "./redux/store.js";
 import { PersistGate } from "redux-persist/integration/react";
 import { persistStore } from "redux-persist";
+import ViewArticle from "./components/Home/ViewArticle/ViewArticle.jsx";
 let persistor = persistStore(store);
 
 const router = createBrowserRouter([
@@ -48,6 +49,10 @@ const router = createBrowserRouter([
                     {
                         path: "/home/submitArticle",
                         element: <SubmitArticle />,
+                    },
+                    {
+                        path: "/home/article/:id",
+                        element: <ViewArticle />,
                     },
                 ],
             },
