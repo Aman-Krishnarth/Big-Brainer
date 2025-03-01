@@ -5,8 +5,7 @@ import { useNavigate } from "react-router-dom";
 function Article({ article, number }) {
     const navigate = useNavigate();
 
-    console.log("article waale component mein hu");
-    console.log(article)
+    console.log(article);
 
     function formatDate(dateString) {
         const date = new Date(dateString); // Create a Date object from the string
@@ -24,7 +23,7 @@ function Article({ article, number }) {
 
     return (
         <div
-            className="bg-[#383737] hover:bg-[#454444] hover:scale-105 transition-all duration-300 cursor-pointer p-3 rounded-3xl flex flex-col gap-3 my-2"
+            className="bg-[#383737] hover:bg-[#454444] hover:scale-105 transition-all duration-300 cursor-pointer p-3 rounded-3xl flex flex-col gap-3 my-2 "
             onClick={handleArticleClick}
         >
             <h3 className="text-lg font-semibold">
@@ -34,7 +33,9 @@ function Article({ article, number }) {
             <h3 className="text-lg font-semibold">
                 Published: {formatDate(article.createdAt)}
             </h3>
-            <p className="text-lg font-semibold">Preview: {article.excerpt}</p>
+            <p className="text-lg font-semibold tracking-wide">
+                Preview: {article.excerpt}
+            </p>
             <h3 className="text-lg font-semibold">
                 Topics
                 {article.tags.map((topic, index) => {
