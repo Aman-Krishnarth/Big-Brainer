@@ -9,6 +9,7 @@ function ViewArticle() {
     const [content, setContent] = useState([]);
     const [date, setDate] = useState("");
     const [likes, setLikes] = useState(0); // New state for likes
+    const [isLiked, setIsLiked] = useState(false);
 
     function formatDate(dateString) {
         const date = new Date(dateString);
@@ -21,21 +22,40 @@ function ViewArticle() {
     useEffect(() => {
         const fetchArticle = async () => {
             const result = await axios.get(
-                `${import.meta.env.VITE_BACKEND_URL}/article/${id}`
+                `${import.meta.env.VITE_BACKEND_URL}/article/${id}`,
+                {
+                    withCredentials: true,
+                }
             );
+
+            console.log(result);
 
             setTitle(result.data.article.title);
             setTags(result.data.article.tags);
             setContent(result.data.article.content);
             setDate(formatDate(result.data.article.createdAt));
+            setIsLiked(result.data.article.liked);
             setLikes(result.data.article.likes);
         };
 
         fetchArticle();
     }, [id]);
 
-    const handleLike = () => {
+    const handleLike = async () => {
         console.log("handle like clicked");
+
+        const result = await axios.get(
+            `${import.meta.env.VITE_BACKEND_URL}/article/like/${id}`,
+            {
+                withCredentials: true,
+            }
+        );
+
+        console.log(result);
+
+        if (result.data.status) {
+            window.location.reload();
+        }
     };
 
     return (
@@ -68,15 +88,26 @@ function ViewArticle() {
 
                 {/* New "Like" Section */}
                 <div className="mt-12 text-center">
-                    <p className="text-gray-400 text-lg mb-4">
-                        Liked the article? Show your support by liking it!
-                    </p>
-                    <button
-                        onClick={handleLike}
-                        className="bg-[#32CD32] text-black px-6 py-2 rounded-full text-xl font-semibold hover:bg-[#28a428] transition duration-300 cursor-pointer"
-                    >
-                        Like this article ({likes})
-                    </button>
+                    {isLiked ? (
+                        // If isLiked is true, show this message
+                        <p className="text-gray-300 text-lg mb-4 font-semibold">
+                            You have already liked this article.
+                        </p>
+                    ) : (
+                        // If isLiked is false, show the "like this article" button
+                        <>
+                            <p className="text-gray-300 text-lg mb-6 font-semibold">
+                                Liked the article? Show your support by liking
+                                it!
+                            </p>
+                            <button
+                                onClick={handleLike}
+                                className="bg-gradient-to-r from-green-400 to-green-600 text-white px-8 py-3 rounded-full text-xl font-semibold shadow-lg hover:scale-105 transform transition duration-300 ease-in-out cursor-pointer"
+                            >
+                                Like this article ({likes})
+                            </button>
+                        </>
+                    )}
                 </div>
             </article>
         </div>

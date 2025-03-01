@@ -20,15 +20,13 @@ const articleSchema = new mongoose.Schema(
             type: [String],
             default: [],
         },
-        author: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "User",
-            required: true,
-        },
         likes: {
             type: Number,
             default: 0,
         },
+        liked: {
+            type: Boolean
+        }
     },
     { timestamps: true } // Automatically adds createdAt & updatedAt
 );

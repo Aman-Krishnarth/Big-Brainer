@@ -43,7 +43,6 @@ function Home() {
             navigateTo: "/home/submitArticle",
         },
         { btnText: "Feedback", classes: "", navigateTo: "/home/feedback" },
-        { btnText: "Profile", classes: "" },
         {
             btnText: "Logout",
             classes:
@@ -51,8 +50,6 @@ function Home() {
             functionToTrigger: handleLogout,
         },
     ];
-
-    
 
     const handleSendMessage = async () => {
         if (!input.trim()) return;
