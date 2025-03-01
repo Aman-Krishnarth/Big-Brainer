@@ -34,9 +34,14 @@ function SubmitArticle() {
         e.preventDefault();
         setSending(true);
 
+        // Split the content by new lines to convert into an array of paragraphs
+        const contentArray = content.split("\n").filter((para) => para.trim() !== "");
+
+        console.log(contentArray)
+
         const result = await axios.post(
             `${import.meta.env.VITE_BACKEND_URL}/article`,
-            { title, excerpt, content, tags },
+            { title, excerpt, content: contentArray, tags },
             { withCredentials: true }
         );
 
@@ -102,7 +107,7 @@ function SubmitArticle() {
                         </label>
                         <textarea
                             id="content"
-                            rows="5"
+                            rows="10"
                             value={content}
                             onChange={(e) => setContent(e.target.value)}
                             className="w-full p-4 bg-[#333] text-white rounded-lg border border-[#555] focus:ring-2 focus:ring-[#32CD32] focus:outline-none"
