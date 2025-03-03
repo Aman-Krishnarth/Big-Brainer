@@ -7,6 +7,7 @@ const otpRouter = require("./routes/otpRouter.js");
 const feedbackRouter = require("./routes/feedbackRouter.js");
 const articleRouter = require("./routes/articleRouter.js");
 const aiRouter = require("./routes/aiRouter.js");
+const googleAuthRouter = require("./routes/googleAuthRouter.js");
 const cookieParser = require("cookie-parser");
 
 dotenv.config();
@@ -33,6 +34,7 @@ app.use("/api/v1/otp", otpRouter);
 app.use("/api/v1/feedback", feedbackRouter);
 app.use("/api/v1/article", articleRouter);
 app.use("/api/v1/askAi", aiRouter);
+app.use("/api/v1/googleAuth", googleAuthRouter);
 
 app.listen(process.env.PORT, () => {
     connectDb();

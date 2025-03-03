@@ -16,6 +16,8 @@ import { PersistGate } from "redux-persist/integration/react";
 import { persistStore } from "redux-persist";
 import ViewArticle from "./components/Home/ViewArticle/ViewArticle.jsx";
 import PageNotFound from "./components/PageNotFound/PageNotFound.jsx";
+import { GoogleOAuthProvider } from "@react-oauth/google";
+
 let persistor = persistStore(store);
 
 const router = createBrowserRouter([
@@ -29,11 +31,23 @@ const router = createBrowserRouter([
             },
             {
                 path: "/login",
-                element: <Login />,
+                element: (
+                    <GoogleOAuthProvider
+                        clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}
+                    >
+                        <Login />
+                    </GoogleOAuthProvider>
+                ),
             },
             {
                 path: "/signup",
-                element: <Signup />,
+                element: (
+                    <GoogleOAuthProvider
+                        clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}
+                    >
+                        <Signup />
+                    </GoogleOAuthProvider>
+                ),
             },
             {
                 path: "*",
