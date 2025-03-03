@@ -15,6 +15,7 @@ import store from "./redux/store.js";
 import { PersistGate } from "redux-persist/integration/react";
 import { persistStore } from "redux-persist";
 import ViewArticle from "./components/Home/ViewArticle/ViewArticle.jsx";
+import PageNotFound from "./components/PageNotFound/PageNotFound.jsx";
 let persistor = persistStore(store);
 
 const router = createBrowserRouter([
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
             {
                 path: "/signup",
                 element: <Signup />,
+            },
+            {
+                path: "*",
+                element: <PageNotFound />,
             },
             {
                 path: "/home",
