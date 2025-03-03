@@ -61,7 +61,7 @@ function ViewArticle() {
     return (
         <div className=" bg-[#212121] text-[#F9F9F9] px-6 md:px-16 lg:px-48 py-12">
             <article className="max-w-4xl mx-auto">
-                <h1 className="text-4xl font-bold mb-6 text-white leading-tight">
+                <h1 className="text-4xl font-bold mb-6 text-gray-200 leading-tight">
                     {title}
                 </h1>
 
@@ -80,7 +80,7 @@ function ViewArticle() {
                     Published on: {date}
                 </p>
 
-                <div className="space-y-6 text-lg leading-relaxed text-gray-300">
+                <div className="space-y-6 text-xl leading-relaxed text-gray-300">
                     {content.map((paragraph, index) => (
                         <p key={index}>{paragraph}</p>
                     ))}
