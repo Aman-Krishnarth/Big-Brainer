@@ -75,14 +75,15 @@ function Signup() {
             console.log(authResult);
 
             if (authResult["code"]) {
-                const result = await axios.get(
+                const result = await axios.post(
                     `${
                         import.meta.env.VITE_BACKEND_URL
-                    }/googleAuth/signup?code=${authResult["code"]}`
+                    }/googleAuth/signup?code=${authResult["code"]}`,
+                    {},
+                    { withCredentials: true }
                 );
 
-                console.log(result)
-
+                console.log(result);
             }
         } catch (error) {
             console.log("error aa gaya");

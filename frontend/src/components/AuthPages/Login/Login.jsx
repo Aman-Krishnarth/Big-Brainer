@@ -4,6 +4,7 @@ import { Eye, EyeOff, ArrowLeft } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { setUser } from "../../../redux/slices/authSlice";
+import { useGoogleLogin } from "@react-oauth/google";
 
 function Login() {
     const [email, setEmail] = useState("");
@@ -52,6 +53,43 @@ function Login() {
             navigate("/home");
         }
     };
+
+    const responseGoogle = async (authResult) => {
+        try {
+            console.log(authResult);
+
+            if (authResult["code"]) {
+                const result = await axios.post(
+                    `${
+                        import.meta.env.VITE_BACKEND_URL
+                    }/googleAuth/login?code=${authResult["code"]}`,
+                    {},
+                    {
+                        withCredentials: true,
+                    }
+                );
+
+                console.log(result);
+
+                alert(result.data.message);
+
+                dispatch(setUser(result.data.retUser));
+
+                if (result.data.status) {
+                    navigate("/home");
+                }
+            }
+        } catch (error) {
+            console.log("error aa gaya");
+            console.log(error);
+        }
+    };
+
+    const handleGoogleLogin = useGoogleLogin({
+        onSuccess: responseGoogle,
+        onError: responseGoogle,
+        flow: "auth-code",
+    });
 
     useEffect(() => {
         if (user) {
@@ -163,7 +201,10 @@ function Login() {
 
                                 <div className="bg-blue-50 p-6 rounded-lg shadow-sm">
                                     {/* Google Login Button */}
-                                    <button className="w-full bg-white border border-gray-300 text-blue-600 py-3 rounded-lg font-semibold flex items-center justify-center space-x-2 cursor-pointer">
+                                    <button
+                                        className="w-full bg-white border border-gray-300 text-blue-600 py-3 rounded-lg font-semibold flex items-center justify-center space-x-2 cursor-pointer hover:scale-105"
+                                        onClick={handleGoogleLogin}
+                                    >
                                         <img
                                             src="https://imgs.search.brave.com/cMeR-TEzSzc3L_T_t4c0ZKSZu5B4BxkMPGrZ48urikE/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jZG4x/Lmljb25maW5kZXIu/Y29tL2RhdGEvaWNv/bnMvZ29vZ2xlLXMt/bG9nby8xNTAvR29v/Z2xlX0ljb25zLTA5/LTUxMi5wbmc"
                                             alt="Google Logo"

@@ -33,6 +33,13 @@ const validateLogin = async (req, res, next) => {
             })
         }
 
+        if(user.password === "GOOGLE_AUTH"){
+            return res.json({
+                status: false,
+                message: "Please login with google"
+            })
+        }
+
 
         // If validation is successful, move to next middleware
         next();

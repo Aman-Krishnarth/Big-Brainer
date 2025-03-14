@@ -1,7 +1,11 @@
-const { signupWithGoogle } = require("../controllers/googleAuthController");
+const { signupWithGoogle, loginWithGoogle } = require("../controllers/googleAuthController");
+const { validateGoogleSignup, validateGoogleLogin } = require("../middlewares/googleAuthMiddleware");
 
 const router = require("express").Router();
 
-router.get("/signup", signupWithGoogle);
+router.post("/signup", validateGoogleSignup, signupWithGoogle);
+router.post("/login", validateGoogleLogin, loginWithGoogle);
+
+
 
 module.exports = router;
