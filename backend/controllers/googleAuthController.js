@@ -20,7 +20,7 @@ const signupWithGoogle = async (req, res) => {
 
         return res.status(200).json({
             status: true,
-            message: "backend se data padhle dalle"
+            message: "Check data on backend"
         })
 
     } catch (error) {
