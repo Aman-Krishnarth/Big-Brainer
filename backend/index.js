@@ -9,6 +9,7 @@ const articleRouter = require("./routes/articleRouter.js");
 const aiRouter = require("./routes/aiRouter.js");
 const googleAuthRouter = require("./routes/googleAuthRouter.js");
 const cookieParser = require("cookie-parser");
+require("./schedulers/emailArticleScheduler.js")
 
 dotenv.config();
 const app = express();

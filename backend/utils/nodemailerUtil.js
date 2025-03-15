@@ -60,4 +60,28 @@ const emailFeedback = async (email, subject, content) => {
     }
 };
 
-module.exports = { sendMail, emailFeedback };
+const sendArticle = async (email, title, excerpt) => {
+    try {
+        const mailOptions = {
+            from: process.env.EMAIL_USER, // The sender's email (using environment variable)
+            to: email, // Recipient's email (from the variable 'email')
+            subject: "Today's Article",
+            html: `
+    <div style="font-family: Arial, sans-serif; padding: 20px; background-color: #f9f9f9; border-radius: 8px;">
+        <h2 style="color: #4CAF50; text-align: center;">${title}</h2>
+        <p style="font-size: 16px; color: #555; line-height: 1.6; text-align: left;">
+            ${excerpt}
+        </p>
+    </div>
+`,
+        };
+
+        await transporter.sendMail(mailOptions);
+
+        console.log("EMAILED ARTICLE SUCCESSFULLY");
+    } catch (error) {
+        console.log("EMAIL ARTICLE CATCH");
+    }
+};
+
+module.exports = { sendMail, emailFeedback, sendArticle };
