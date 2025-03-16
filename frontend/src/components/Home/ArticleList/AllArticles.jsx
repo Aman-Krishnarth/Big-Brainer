@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Article from "./Article.jsx";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
@@ -6,26 +6,19 @@ import { useNavigate } from "react-router-dom";
 
 function AllArticles() {
     const [articles, setArticles] = useState([]);
+    const [filteringTags, setFilteringTags] = useState([]); // State for filtering tags
     const user = useSelector((state) => state.auth.user);
     const navigate = useNavigate();
 
-    console.log("all articles mein hu");
+    // Reference to the input field
+    const inputRef = useRef(null);
 
     useEffect(() => {
         (async function fetchArticles() {
             // Fetch articles from backend
-
             const result = await axios.get(
                 `${import.meta.env.VITE_BACKEND_URL}/article`
             );
-
-            console.log("ARTICLES AAYE HAI");
-
-            console.log(result);
-
-            console.log(result.data.articles);
-
-            console.log(Array.isArray(result.data.articles));
 
             setArticles(result.data.articles);
         })();
@@ -36,6 +29,35 @@ function AllArticles() {
             navigate("/");
         }
     }, []);
+
+    // Handle adding a tag
+    const handleAddTag = (e) => {
+        const inputValue = e.target.value.trim(); // Trim the value before adding it
+        if (e.key === "Enter" && inputValue !== "") {
+            setFilteringTags((prevTags) => [...prevTags, inputValue]);
+            e.target.value = ""; // Clear input after adding tag
+        }
+    };
+
+    // Handle adding a tag via button click
+    const handleAddTagClick = () => {
+        const inputValue = inputRef.current.value.trim(); // Get input value via ref
+        if (inputValue !== "") {
+            setFilteringTags((prevTags) => [...prevTags, inputValue]);
+            inputRef.current.value = ""; // Clear input field after adding tag
+        }
+    };
+
+    // Handle removing a tag
+    const removeTag = (tagToRemove) => {
+        setFilteringTags((prevTags) =>
+            prevTags.filter((tag) => tag !== tagToRemove)
+        );
+    };
+
+    useEffect(()=>{
+        console.log(filteringTags)
+    },[filteringTags])
 
     return (
         <div className="p-3 flex flex-col gap-4">
@@ -55,8 +77,44 @@ function AllArticles() {
                 process and try not to forget it in five minutes.
             </h3>
 
+            {/* Search Bar for Tags */}
+            <div className="flex gap-2 mb-4 items-center">
+                <input
+                    ref={inputRef} // Attach the ref to the input element
+                    type="text"
+                    placeholder="Enter tag and press Enter"
+                    onKeyDown={handleAddTag}
+                    className="p-2 rounded-md border border-gray-300 flex-grow focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+                <button
+                    onClick={handleAddTagClick} // Trigger tag addition on button click
+                    className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none cursor-pointer"
+                >
+                    Add Tag
+                </button>
+            </div>
+
+            {/* Display selected tags */}
+            <div className="flex flex-wrap gap-2 mt-2">
+                {filteringTags.map((tag, index) => (
+                    <div
+                        key={index}
+                        className="bg-[#32CD32] text-black px-3 py-1 rounded-full text-sm flex items-center gap-2"
+                    >
+                        {tag}
+                        <button
+                            type="button"
+                            onClick={() => removeTag(tag)}
+                            className="text-black font-bold cursor-pointer hover:text-white text-lg hover:scale-110 transition-all duration-200"
+                        >
+                            ×
+                        </button>
+                    </div>
+                ))}
+            </div>
+
+            {/* Display Articles */}
             {articles.map((article, index) => (
-                // console.log("")
                 <Article article={article} number={index + 1} key={index} />
             ))}
         </div>
