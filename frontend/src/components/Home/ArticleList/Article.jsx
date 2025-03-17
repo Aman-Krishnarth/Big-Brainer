@@ -5,8 +5,6 @@ import { useNavigate } from "react-router-dom";
 function Article({ article, number }) {
     const navigate = useNavigate();
 
-    console.log(article);
-
     function formatDate(dateString) {
         const date = new Date(dateString); // Create a Date object from the string
 

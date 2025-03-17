@@ -164,9 +164,48 @@ const likeArticle = async (req, res) => {
     }
 };
 
+const filterArticle = async (req, res) => {
+    try {
+        const filterTags = req.query.tags; 
+
+        if (!filterTags || !Array.isArray(filterTags)) {
+            return res.json({
+                status: false,
+                message: "No articles found"
+            })
+        }
+
+        // Use case-insensitive regex to match tags in the database
+        const articles = await Article.find({
+            tags: {
+                $in: filterTags.map((tag) => new RegExp(`^${tag}$`, "i")), // Create a case-insensitive regex for each tag
+            },
+        });
+
+        // Check if articles are found
+        if (articles.length === 0) {
+            return res.json({
+                status: false,
+                message: "No articles found"
+            })
+        }
+
+        // Return the filtered articles
+        res.status(200).json({
+            status: true,
+            message: "Articles fetched successfully",
+            articles,
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Error fetching articles" });
+    }
+};
+
 module.exports = {
     createArticle,
     getAllArticles,
     getSpecificArticle,
     likeArticle,
+    filterArticle,
 };

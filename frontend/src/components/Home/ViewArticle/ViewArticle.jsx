@@ -20,9 +20,10 @@ function ViewArticle() {
     }
 
     useEffect(() => {
+
         const fetchArticle = async () => {
             const result = await axios.get(
-                `${import.meta.env.VITE_BACKEND_URL}/article/${id}`,
+                `${import.meta.env.VITE_BACKEND_URL}/article/view/${id}`,
                 {
                     withCredentials: true,
                 }

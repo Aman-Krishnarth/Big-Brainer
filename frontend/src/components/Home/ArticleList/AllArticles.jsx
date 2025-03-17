@@ -13,15 +13,17 @@ function AllArticles() {
     // Reference to the input field
     const inputRef = useRef(null);
 
-    useEffect(() => {
-        (async function fetchArticles() {
-            // Fetch articles from backend
-            const result = await axios.get(
-                `${import.meta.env.VITE_BACKEND_URL}/article`
-            );
+    async function fetchAllArticles() {
+        // Fetch articles from backend
+        const result = await axios.get(
+            `${import.meta.env.VITE_BACKEND_URL}/article`
+        );
 
-            setArticles(result.data.articles);
-        })();
+        setArticles(result.data.articles);
+    }
+
+    useEffect(() => {
+        fetchAllArticles();
     }, []);
 
     useEffect(() => {
@@ -55,9 +57,30 @@ function AllArticles() {
         );
     };
 
-    useEffect(()=>{
-        console.log(filteringTags)
-    },[filteringTags])
+    useEffect(() => {
+        if (filteringTags.length === 0) {
+            fetchAllArticles();
+            return;
+        }
+
+        async function fetchArticles() {
+            const result = await axios.get(
+                `${import.meta.env.VITE_BACKEND_URL}/article/filter`,
+                {
+                    params: { tags: filteringTags },
+                    withCredentials: true,
+                }
+            );
+
+            console.log(result);
+
+            if (result.data.status) {
+                setArticles(result.data.articles);
+            }
+        }
+
+        fetchArticles();
+    }, [filteringTags]);
 
     return (
         <div className="p-3 flex flex-col gap-4">
