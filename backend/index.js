@@ -20,7 +20,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(
     cors({
-        origin: "http://localhost:5173", // Only allow requests from this origin
+        origin: "https://big-brainer-frontend.onrender.com", // Only allow requests from this origin
         credentials: true, // Allow cookies to be sent with requests
     })
 );
