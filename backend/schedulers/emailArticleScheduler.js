@@ -22,7 +22,7 @@ const task = async () => {
 
 
 // Schedule the cron job to run at 8 AM IST every day
-cron.schedule("56 1 * * *", task, {
+cron.schedule("0 2 * * *", task, {
     timezone: "Asia/Kolkata", // Set the timezone to IST
 });
 
