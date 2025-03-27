@@ -113,7 +113,7 @@ function AllArticles() {
                     onClick={handleAddTagClick} // Trigger tag addition on button click
                     className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none cursor-pointer"
                 >
-                    Add Tag
+                    Search Tag
                 </button>
             </div>
 

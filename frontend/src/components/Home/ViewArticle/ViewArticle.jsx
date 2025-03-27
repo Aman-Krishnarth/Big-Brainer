@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import { Typewriter } from "react-simple-typewriter";
 
 function ViewArticle() {
     const { id } = useParams();
@@ -10,6 +11,7 @@ function ViewArticle() {
     const [date, setDate] = useState("");
     const [likes, setLikes] = useState(0); // New state for likes
     const [isLiked, setIsLiked] = useState(false);
+    const [currentIndex, setCurrentIndex] = useState(0); // New state to track the index of the paragraph being typed
 
     function formatDate(dateString) {
         const date = new Date(dateString);
@@ -20,7 +22,6 @@ function ViewArticle() {
     }
 
     useEffect(() => {
-
         const fetchArticle = async () => {
             const result = await axios.get(
                 `${import.meta.env.VITE_BACKEND_URL}/article/view/${id}`,
@@ -59,6 +60,16 @@ function ViewArticle() {
         }
     };
 
+    useEffect(() => {
+        console.log(content);
+    }, [content]);
+
+    const handleTypeComplete = () => {
+        if (currentIndex < content.length - 1) {
+            setCurrentIndex(currentIndex + 1);
+        }
+    };
+
     return (
         <div className=" bg-[#212121] text-[#F9F9F9] px-6 md:px-16 lg:px-48 py-12">
             <article className="max-w-4xl mx-auto">
@@ -82,8 +93,19 @@ function ViewArticle() {
                 </p>
 
                 <div className="space-y-6 text-xl leading-relaxed text-gray-300">
-                    {content.map((paragraph, index) => (
-                        <p key={index}>{paragraph}</p>
+                    {content.slice(0, currentIndex + 1).map((paragraph, index) => (
+                        <p key={index}>
+                            <Typewriter
+                                words={[paragraph]}
+                                loop={0}
+                                cursor
+                                cursorStyle="|"
+                                typeSpeed={30} // Adjust type speed here
+                                deleteSpeed={50}
+                                delaySpeed={20}
+                                onTypeDone={handleTypeComplete} // Trigger when typing is done
+                            />
+                        </p>
                     ))}
                 </div>
 

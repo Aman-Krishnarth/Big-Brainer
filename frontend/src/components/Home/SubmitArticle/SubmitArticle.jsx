@@ -8,21 +8,22 @@ function SubmitArticle() {
     const [excerpt, setExcerpt] = useState("");
     const [content, setContent] = useState("");
     const [tags, setTags] = useState([]);
+    const [newTag, setNewTag] = useState(""); // State for the new tag input
     const [sending, setSending] = useState(false);
-    const presentTags = [
-        "Science",
-        "History",
-        "Technology",
-        "Philosophy",
-        "Random Fun",
-    ];
     const user = useSelector((state) => state.auth.user);
     const navigate = useNavigate();
 
-    const handleTagSelect = (e) => {
-        const selectedTag = e.target.value;
-        if (!tags.includes(selectedTag)) {
-            setTags([...tags, selectedTag]);
+    const handleTagSelect = () => {
+        if (newTag && !tags.includes(newTag)) {
+            setTags([...tags, newTag]);
+            setNewTag(""); // Clear input field after adding tag
+        }
+    };
+
+    const handleTagKeyPress = (e) => {
+        if (e.key === "Enter" && newTag && !tags.includes(newTag)) {
+            setTags([...tags, newTag]);
+            setNewTag(""); // Clear input field after adding tag
         }
     };
 
@@ -35,9 +36,11 @@ function SubmitArticle() {
         setSending(true);
 
         // Split the content by new lines to convert into an array of paragraphs
-        const contentArray = content.split("\n").filter((para) => para.trim() !== "");
+        const contentArray = content
+            .split("\n")
+            .filter((para) => para.trim() !== "");
 
-        console.log(contentArray)
+        console.log(contentArray);
 
         const result = await axios.post(
             `${import.meta.env.VITE_BACKEND_URL}/article`,
@@ -118,20 +121,25 @@ function SubmitArticle() {
                         <label className="block text-lg mb-2" htmlFor="tags">
                             Tags
                         </label>
-                        <select
-                            id="tags"
-                            onChange={handleTagSelect}
-                            className="w-full p-4 bg-[#333] text-white rounded-lg border border-[#555] focus:ring-2 focus:ring-[#32CD32] focus:outline-none"
-                        >
-                            <option value="" disabled selected>
-                                Select a tag
-                            </option>
-                            {presentTags.map((tag, index) => (
-                                <option key={index} value={tag}>
-                                    {tag}
-                                </option>
-                            ))}
-                        </select>
+                        <div className="flex gap-2 mb-4 items-center">
+                            <input
+                                type="text"
+                                id="tags"
+                                value={newTag}
+                                onChange={(e) => setNewTag(e.target.value)}
+                                onKeyDown={handleTagKeyPress} // Allow enter key to add the tag
+                                className="p-2 rounded-md border border-gray-300 flex-grow focus:outline-none focus:ring-2 focus:ring-[#32CD32]"
+                                placeholder="Add a tag"
+                            />
+                            <button
+                                type="button"
+                                onClick={handleTagSelect} // Add tag via button click
+                                className="px-4 py-2 bg-[#32CD32] text-black rounded-md font-semibold hover:bg-[#28A428] transition-all duration-200 focus:outline-none cursor-pointer"
+                            >
+                                Add Tag
+                            </button>
+                        </div>
+
                         {/* Display selected tags */}
                         <div className="flex flex-wrap gap-2 mt-2">
                             {tags.map((tag, index) => (

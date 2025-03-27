@@ -21,7 +21,7 @@ function Article({ article, number }) {
 
     return (
         <div
-            className="bg-[#383737] hover:bg-[#454444] hover:scale-105 transition-all duration-300 cursor-pointer p-3 rounded-3xl flex flex-col gap-3 my-2 "
+            className="bg-[#383737] hover:bg-[#454444] hover:scale-105 transition-all duration-300 cursor-pointer p-3 rounded-3xl flex flex-col gap-3 my-2"
             onClick={handleArticleClick}
         >
             <h3 className="text-lg font-semibold">

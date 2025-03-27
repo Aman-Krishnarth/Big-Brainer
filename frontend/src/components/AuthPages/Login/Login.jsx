@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { setUser } from "../../../redux/slices/authSlice";
 import { useGoogleLogin } from "@react-oauth/google";
+import { Typewriter } from 'react-simple-typewriter';
 
 function Login() {
     const [email, setEmail] = useState("");
@@ -123,12 +124,17 @@ function Login() {
                                 Congratulations 🎉
                             </h1>
                             <p className="text-2xl text-gray-700 font-semibold tracking-wide">
-                                Wow. It's truly amazing that you decided to work
-                                on yourself today. Like, who would've thought?
-                                You’re actually doing this. Look at you! 🙄 But
-                                seriously, no need to hold back now. Keep
-                                pushing forward, and don’t even think about
-                                stopping. You’re on the right track!
+                                <Typewriter
+                                    words={[
+                                        "Wow. It's truly amazing that you decided to work on yourself today. Like, who would've thought? You’re actually doing this. Look at you! 🙄 But seriously, no need to hold back now. Keep pushing forward, and don’t even think about stopping. You’re on the right track!",
+                                    ]}
+                                    loop={0} // Change loop count as needed
+                                    cursor
+                                    cursorStyle="_"
+                                    typeSpeed={50} // You can adjust speed here
+                                    deleteSpeed={50}
+                                    delaySpeed={50}
+                                />
                             </p>
                         </div>
 

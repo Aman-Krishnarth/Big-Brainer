@@ -4,6 +4,7 @@ import { Eye, EyeOff, ArrowLeft } from "lucide-react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { useGoogleLogin } from "@react-oauth/google";
+import { Typewriter } from 'react-simple-typewriter';
 
 function Signup() {
     const [email, setEmail] = useState("");
@@ -128,10 +129,17 @@ function Signup() {
                                 Welcome Aboard! 🎉
                             </h1>
                             <p className="text-2xl text-gray-700 font-semibold tracking-wide">
-                                It's truly impressive that you’re taking the
-                                first step. You’re either about to fall back
-                                into the group of losers... or join the ranks of
-                                the intellectuals. Your move. Make it count.
+                                <Typewriter
+                                    words={[
+                                        "It's truly impressive that you’re taking the first step. You’re either about to fall back into the group of losers... or join the ranks of the intellectuals. Your move. Make it count.",
+                                    ]}
+                                    loop={0} // Change loop count as needed
+                                    cursor
+                                    cursorStyle="_"
+                                    typeSpeed={50} // You can adjust speed here
+                                    deleteSpeed={50}
+                                    delaySpeed={50}
+                                />
                             </p>
                         </div>
 
