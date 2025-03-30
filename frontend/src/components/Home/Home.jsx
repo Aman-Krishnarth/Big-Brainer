@@ -5,6 +5,7 @@ import { Outlet, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { setUser } from "../../redux/slices/authSlice";
+import { toast } from "react-toastify";
 
 function Home() {
     const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -27,9 +28,9 @@ function Home() {
             }
         );
 
-        alert(result.data.message);
-
+        
         if (result.data.status) {
+            toast.success(result.data.message);
             navigate("/");
             dispatch(setUser(null));
         }

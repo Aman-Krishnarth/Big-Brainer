@@ -5,6 +5,7 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import { useGoogleLogin } from "@react-oauth/google";
 import { Typewriter } from 'react-simple-typewriter';
+import {  toast } from 'react-toastify';
 
 function Signup() {
     const [email, setEmail] = useState("");
@@ -14,6 +15,7 @@ function Signup() {
     const [showPassword, setShowPassword] = useState(false);
     const [otpSent, setOtpSent] = useState(false);
     const [sendingOtp, setSendingOtp] = useState(false);
+    const [loading, setLoading] = useState(false); // State for managing loading
     const user = useSelector((store) => store.auth.user);
     const navigate = useNavigate();
     const otpRefs = useRef([]);
@@ -42,7 +44,7 @@ function Signup() {
 
     const sendOtp = async () => {
         if (!email || email.length === 0) {
-            alert("Please enter email");
+            toast.error("Please enter email");
             return;
         }
 
@@ -57,38 +59,41 @@ function Signup() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const result = await axios.post(
-            `${import.meta.env.VITE_BACKEND_URL}/auth/signup`,
-            { email, password, otp: otp.join(""), username },
-            { withCredentials: true }
-        );
+        setLoading(true); // Start the loading spinner when the form is submitted
 
-        if (result.data.status) {
-            setTimeout(() => {
-                alert("User created successfully");
-                navigate("/login");
-            }, 2000);
+        try {
+            const result = await axios.post(
+                `${import.meta.env.VITE_BACKEND_URL}/auth/signup`,
+                { email, password, otp: otp.join(""), username },
+                { withCredentials: true }
+            );
+
+            if (result.data.status) {
+                setTimeout(() => {
+                    toast.success("User created successfully");
+                    navigate("/login");
+                }, 2000);
+            }
+        } catch (error) {
+            console.error("Signup failed", error);
+            toast.error("There was an error while creating your account. Please try again.");
+        } finally {
+            setLoading(false); // Stop the loading spinner after the API call
         }
     };
 
     const responseGoogle = async (authResult) => {
         try {
-            console.log(authResult);
-
             if (authResult["code"]) {
                 const result = await axios.post(
-                    `${
-                        import.meta.env.VITE_BACKEND_URL
-                    }/googleAuth/signup?code=${authResult["code"]}`,
+                    `${import.meta.env.VITE_BACKEND_URL}/googleAuth/signup?code=${authResult["code"]}`,
                     {},
                     { withCredentials: true }
                 );
-
                 console.log(result);
             }
         } catch (error) {
-            console.log("error aa gaya");
-            console.log(error);
+            console.log("Error occurred during Google signup", error);
         }
     };
 
@@ -102,7 +107,7 @@ function Signup() {
         if (user) {
             navigate("/home");
         }
-    }, []);
+    }, [user]);
 
     return (
         <div className="relative">
@@ -114,10 +119,7 @@ function Signup() {
                 <div className="w-full max-w-7xl">
                     {/* Back to Main Page Link */}
                     <div className="text-left mb-4 hover:underline text-xl">
-                        <Link
-                            to="/"
-                            className="flex items-center text-white font-semibold "
-                        >
+                        <Link to="/" className="flex items-center text-white font-semibold">
                             <ArrowLeft className="mr-1" />
                             Back to Main Page
                         </Link>
@@ -133,10 +135,10 @@ function Signup() {
                                     words={[
                                         "It's truly impressive that you’re taking the first step. You’re either about to fall back into the group of losers... or join the ranks of the intellectuals. Your move. Make it count.",
                                     ]}
-                                    loop={0} // Change loop count as needed
+                                    loop={0}
                                     cursor
-                                    cursorStyle="_"
-                                    typeSpeed={50} // You can adjust speed here
+                                    cursorStyle="|"
+                                    typeSpeed={50}
                                     deleteSpeed={50}
                                     delaySpeed={50}
                                 />
@@ -172,13 +174,8 @@ function Signup() {
 
                                     <div className="grid grid-cols-[1fr_auto] justify-center items-center gap-2">
                                         {/* Password Input with Validation */}
-
                                         <input
-                                            type={
-                                                showPassword
-                                                    ? "text"
-                                                    : "password"
-                                            }
+                                            type={showPassword ? "text" : "password"}
                                             className="w-full p-3 mb-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
                                             placeholder="Password"
                                             name="password"
@@ -189,16 +186,10 @@ function Signup() {
 
                                         {/* Eye Icon for Password Visibility */}
                                         <div
-                                            onClick={() =>
-                                                setShowPassword(!showPassword)
-                                            }
+                                            onClick={() => setShowPassword(!showPassword)}
                                             className="cursor-pointer flex justify-center items-center"
                                         >
-                                            {showPassword ? (
-                                                <Eye size={28} />
-                                            ) : (
-                                                <EyeOff size={28} />
-                                            )}
+                                            {showPassword ? <Eye size={28} /> : <EyeOff size={28} />}
                                         </div>
                                     </div>
 
@@ -252,15 +243,9 @@ function Signup() {
                                                 className="w-10 h-10 text-center text-xl border border-gray-600 rounded-md focus:ring-2 focus:ring-blue-500 outline-none"
                                                 value={digit}
                                                 onChange={(e) =>
-                                                    handleOtpChange(
-                                                        index,
-                                                        e.target.value
-                                                    )
+                                                    handleOtpChange(index, e.target.value)
                                                 }
-                                                ref={(el) =>
-                                                    (otpRefs.current[index] =
-                                                        el)
-                                                }
+                                                ref={(el) => (otpRefs.current[index] = el)}
                                             />
                                         ))}
                                     </div>
@@ -269,8 +254,35 @@ function Signup() {
                                     <button
                                         type="submit"
                                         className="w-full bg-blue-500 text-white py-3 rounded-lg font-semibold hover:bg-blue-600 transition-all duration-200 cursor-pointer"
+                                        disabled={loading} // Disable the button while loading
                                     >
-                                        Signup
+                                        {loading ? (
+                                            <span className="flex items-center justify-center">
+                                                <svg
+                                                    className="animate-spin h-5 w-5 mr-2 text-white"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    fill="none"
+                                                    viewBox="0 0 24 24"
+                                                >
+                                                    <circle
+                                                        className="opacity-25"
+                                                        cx="12"
+                                                        cy="12"
+                                                        r="10"
+                                                        stroke="currentColor"
+                                                        strokeWidth="4"
+                                                    ></circle>
+                                                    <path
+                                                        className="opacity-75"
+                                                        fill="currentColor"
+                                                        d="M4 12a8 8 0 018-8v8H4z"
+                                                    ></path>
+                                                </svg>
+                                                Signing up...
+                                            </span>
+                                        ) : (
+                                            "Signup"
+                                        )}
                                     </button>
                                 </div>
 

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 function SubmitArticle() {
     const [title, setTitle] = useState("");
@@ -35,27 +36,48 @@ function SubmitArticle() {
         e.preventDefault();
         setSending(true);
 
-        // Split the content by new lines to convert into an array of paragraphs
-        const contentArray = content
-            .split("\n")
-            .filter((para) => para.trim() !== "");
+        try {
+            // Split the content by new lines to convert into an array of paragraphs
+            const contentArray = content
+                .split("\n")
+                .filter((para) => para.trim() !== "");
 
-        console.log(contentArray);
+            console.log(contentArray);
 
-        const result = await axios.post(
-            `${import.meta.env.VITE_BACKEND_URL}/article`,
-            { title, excerpt, content: contentArray, tags },
-            { withCredentials: true }
-        );
+            // Make the API request
+            const result = await axios.post(
+                `${import.meta.env.VITE_BACKEND_URL}/article`,
+                { title, excerpt, content: contentArray, tags },
+                { withCredentials: true }
+            );
 
-        alert(result.data.message);
-        setSending(false);
+            // Handle the response
+            toast.success(result.data.message);
 
-        if (result.data.status) {
-            setTitle("");
-            setExcerpt("");
-            setContent("");
-            setTags([]);
+            // Reset form if successful
+            if (result.data.status) {
+                setTitle("");
+                setExcerpt("");
+                setContent("");
+                setTags([]);
+            }
+        } catch (error) {
+            // Check if the error is due to a response error (status outside 2xx)
+            if (error.response) {
+                // Access the response from the backend
+                console.error("Backend Error:", error.response.data);
+                toast.error(
+                    error.response.data.message ||
+                        "Something went wrong. Please try again."
+                );
+            } else {
+                // If the error is not related to the response (e.g., network issues)
+                console.error("Error:", error.message);
+                toast.error("An unexpected error occurred. Please try again.");
+            }
+        } finally {
+            // Always stop the sending state, regardless of success or failure
+            setSending(false);
         }
     };
 

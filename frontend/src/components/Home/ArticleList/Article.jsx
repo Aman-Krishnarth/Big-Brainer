@@ -21,26 +21,36 @@ function Article({ article, number }) {
 
     return (
         <div
-            className="bg-[#383737] hover:bg-[#454444] hover:scale-105 transition-all duration-300 cursor-pointer p-3 rounded-3xl flex flex-col gap-3 my-2"
+            className="bg-[#3A3A3A] hover:bg-[#4F4F4F] hover:scale-105 transition-all duration-300 cursor-pointer p-6 rounded-3xl flex flex-col gap-4 my-4 shadow-lg hover:shadow-2xl transform"
             onClick={handleArticleClick}
         >
-            <h3 className="text-lg font-semibold">
-                {" "}
+            {/* Title Section */}
+            <h3 className="text-2xl font-bold text-white leading-tight">
                 {number}. {article.title}
             </h3>
-            <h3 className="text-lg font-semibold">
+
+            {/* Date Section */}
+            <h3 className="text-sm text-gray-300 italic">
                 Published: {formatDate(article.createdAt)}
             </h3>
-            <p className="text-lg font-semibold tracking-wide">
+
+            {/* Excerpt Section */}
+            <p className="text-lg text-gray-200 mt-2 tracking-wide">
                 Preview: {article.excerpt}
             </p>
-            <h3 className="text-lg font-semibold">
-                Topics
-                {article.tags.map((topic, index) => {
-                    return <TopicsSpan topic={topic} key={index} />;
-                })}
+
+            {/* Topics Section */}
+            <h3 className="text-md text-gray-300 mt-2">
+                Topics:
+                <span className="ml-2 space-x-3">
+                    {article.tags.map((topic, index) => (
+                        <TopicsSpan topic={topic} key={index} />
+                    ))}
+                </span>
             </h3>
-            <h3 className="text-green-500 text-2xl font-extrabold drop-shadow-lg">
+
+            {/* Likes Section */}
+            <h3 className="text-yellow-400 text-xl font-extrabold mt-2">
                 Likes: {article.likes}
             </h3>
         </div>

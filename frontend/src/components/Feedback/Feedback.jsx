@@ -3,6 +3,7 @@ import axios from "axios";
 import { Loader2 } from "lucide-react"; // Importing a loading icon
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 function Feedback() {
     const [subject, setSubject] = useState("");
@@ -34,19 +35,19 @@ function Feedback() {
             console.log(result);
 
             if (!result.data.status) {
-                alert(result.data.message);
+                toast.error(result.data.message);
                 setSending(false);
                 return;
             }
 
-            alert("come back later with some more useful and good feedback.");
+            toast.success("come back later with some more useful and good feedback.");
 
             setSubject("");
             setContent("");
             setSending(false);
         } catch (error) {
             console.error("Error submitting feedback:", error);
-            alert("Something went wrong. Try again later.");
+            toast.error("Something went wrong. Try again later.");
         }
     };
 
@@ -109,7 +110,7 @@ function Feedback() {
                     <button
                         type="submit"
                         disabled={sending}
-                        className={`w-full flex items-center justify-center gap-2 bg-[#32CD32] text-black text-lg font-semibold py-3 rounded-lg transition-transform transform hover:scale-105 ${
+                        className={`w-full cursor-pointer flex items-center justify-center gap-2 bg-[#32CD32] text-black text-lg font-semibold py-3 rounded-lg transition-transform transform hover:scale-105 ${
                             sending
                                 ? "opacity-75 cursor-not-allowed"
                                 : "hover:bg-[#28A428]"

@@ -5,12 +5,14 @@ import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { setUser } from "../../../redux/slices/authSlice";
 import { useGoogleLogin } from "@react-oauth/google";
-import { Typewriter } from 'react-simple-typewriter';
+import { Typewriter } from "react-simple-typewriter";
+import { toast } from "react-toastify";
 
 function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
+    const [isLoading, setIsLoading] = useState(false); // Add loading state
     const user = useSelector((store) => store.auth.user);
     const navigate = useNavigate();
 
@@ -31,27 +33,34 @@ function Login() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        console.log(`${import.meta.env.VITE_BACKEND_URL}/auth/login`);
+        setIsLoading(true); // Set loading state to true before API call
 
-        const result = await axios.post(
-            `${import.meta.env.VITE_BACKEND_URL}/auth/login`,
-            {
-                email,
-                password,
-            },
-            {
-                withCredentials: true,
+        try {
+            const result = await axios.post(
+                `${import.meta.env.VITE_BACKEND_URL}/auth/login`,
+                {
+                    email,
+                    password,
+                },
+                {
+                    withCredentials: true,
+                }
+            );
+
+            console.log(result);
+
+            if (result.data.status) {
+                toast.success(result.data.message);
+                dispatch(setUser(result.data.retUser));
+                navigate("/home");
+            } else {
+                toast.error(result.data.message);
             }
-        );
-
-        console.log(result);
-
-        alert(result.data.message);
-
-        dispatch(setUser(result.data.retUser));
-
-        if (result.data.status) {
-            navigate("/home");
+        } catch (error) {
+            console.error("Error logging in:", error);
+            toast.error("An error occurred. Please try again.");
+        } finally {
+            setIsLoading(false); // Set loading state to false after API call completes
         }
     };
 
@@ -71,8 +80,6 @@ function Login() {
                 );
 
                 console.log(result);
-
-                alert(result.data.message);
 
                 dispatch(setUser(result.data.retUser));
 
@@ -96,7 +103,7 @@ function Login() {
         if (user) {
             navigate("/home");
         }
-    });
+    }, [user, navigate]);
 
     return (
         <div className="relative">
@@ -130,7 +137,7 @@ function Login() {
                                     ]}
                                     loop={0} // Change loop count as needed
                                     cursor
-                                    cursorStyle="_"
+                                    cursorStyle="|"
                                     typeSpeed={50} // You can adjust speed here
                                     deleteSpeed={50}
                                     delaySpeed={50}
@@ -196,8 +203,16 @@ function Login() {
                                     <button
                                         type="submit"
                                         className="w-full bg-blue-500 text-white py-3 rounded-lg font-semibold hover:bg-blue-600 transition-all duration-200 cursor-pointer"
+                                        disabled={isLoading} // Disable button while loading
                                     >
-                                        Login
+                                        {isLoading ? (
+                                            <div className="flex justify-center items-center">
+                                                <div className="animate-spin border-t-2 border-blue-600 w-6 h-6 rounded-full mr-2"></div>
+                                                Logging In...
+                                            </div>
+                                        ) : (
+                                            "Login"
+                                        )}
                                     </button>
                                 </div>
 
