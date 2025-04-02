@@ -7,19 +7,31 @@ const { sendArticle } = require("../utils/nodemailerUtil.js");
 const task = async () => {
     try {
         console.log("inside tasks");
-        const articles = await Article.find({});
+
+        // Fetch a random article from the database
+        const randomArticle = await Article.aggregate([
+            { $sample: { size: 1 } },
+        ]);
+
+        if (randomArticle.length === 0) {
+            console.log("No articles found in the database.");
+            return;
+        }
+
+        const todaysArticle = randomArticle[0]; // Extract the article from the array
         const users = await User.find({});
 
-        const todaysArticle = articles[Math.floor(Math.random() * articles.length)];
-
         for (let i = 0; i < users.length; i++) {
-            await sendArticle(users[i].email, todaysArticle.title, todaysArticle.excerpt);
+            await sendArticle(
+                users[i].email,
+                todaysArticle.title,
+                todaysArticle.excerpt
+            );
         }
     } catch (error) {
         console.error("Error executing cron job:", error);
     }
 };
-
 
 // Schedule the cron job to run at 8 AM IST every day
 cron.schedule("0 8 * * *", task, {
