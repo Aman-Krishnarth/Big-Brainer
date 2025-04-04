@@ -8,7 +8,12 @@ const sendFeedback = async (req, res) => {
 
         const token = req.cookies.token;
 
+        console.log("feedback waala token", token);
+        console.log("key = ", process.env.JWT_SECRET);
+
         const data = jwt.verify(token, process.env.JWT_SECRET);
+
+        console.log("data = ", data);
 
         const user = await User.findOne({ _id: data.id });
 
@@ -20,7 +25,7 @@ const sendFeedback = async (req, res) => {
         });
     } catch (error) {
         console.log("SEND FEEDBACK CATCH");
-        console.log(error)
+        console.log(error);
         return res.json({
             status: false,
             message: "Something went wrong",
