@@ -6,10 +6,11 @@ const {
     likeArticle,
     filterArticle,
 } = require("../controllers/articleController");
+const { validateArticle } = require("../middlewares/articleMiddleware.js");
 
 const router = express.Router();
 
-router.post("/", createArticle);
+router.post("/", validateArticle,createArticle);
 router.get("/", getAllArticles);
 router.get("/filter", filterArticle)
 router.get("/view/:id", getSpecificArticle);

@@ -52,14 +52,16 @@ function SubmitArticle() {
             );
 
             // Handle the response
-            toast.success(result.data.message);
 
             // Reset form if successful
             if (result.data.status) {
+                toast.success(result.data.message);
                 setTitle("");
                 setExcerpt("");
                 setContent("");
                 setTags([]);
+            } else {
+                toast.error(result.data.message);
             }
         } catch (error) {
             // Check if the error is due to a response error (status outside 2xx)
