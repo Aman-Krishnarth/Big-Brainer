@@ -62,20 +62,20 @@ const login = async (req, res) => {
 
             res.cookie("token", token, {
                 httpOnly: true,
-                // secure: process.env.NODE_ENV === 'production', // Uncomment for production environment
-                sameSite: "Strict", // Helps protect against CSRF
+                secure: process.env.NODE_ENV === "production", // Uncomment for production environment
+                sameSite: "None", // Helps protect against CSRF
                 maxAge: 3600000, // Token expires after 1 hour
             });
 
             const retUser = {
                 id: user._id,
-                username: user.username
+                username: user.username,
             };
 
             return res.json({
                 status: true,
                 message: "Logged in successfully",
-                retUser
+                retUser,
             });
         } else {
             return res.json({
