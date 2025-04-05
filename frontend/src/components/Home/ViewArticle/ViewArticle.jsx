@@ -9,69 +9,52 @@ function ViewArticle() {
     const [tags, setTags] = useState([]);
     const [content, setContent] = useState([]);
     const [date, setDate] = useState("");
-    const [likes, setLikes] = useState(0); // New state for likes
+    const [likes, setLikes] = useState(0);
     const [isLiked, setIsLiked] = useState(false);
-    const [currentIndex, setCurrentIndex] = useState(0); // New state to track the index of the paragraph being typed
-
-    function formatDate(dateString) {
-        const date = new Date(dateString);
-        const day = String(date.getDate()).padStart(2, "0");
-        const month = String(date.getMonth() + 1).padStart(2, "0");
-        const year = date.getFullYear();
-        return `${day}-${month}-${year}`;
-    }
+    const [currentIndex, setCurrentIndex] = useState(0);
 
     useEffect(() => {
         const fetchArticle = async () => {
-            const result = await axios.get(
-                `${import.meta.env.VITE_BACKEND_URL}/article/view/${id}`,
-                {
-                    withCredentials: true,
-                }
-            );
+            try {
+                const result = await axios.get(
+                    `${import.meta.env.VITE_BACKEND_URL}/article/view/${id}`,
+                    { withCredentials: true }
+                );
 
-            console.log(result);
-
-            setTitle(result.data.article.title);
-            setTags(result.data.article.tags);
-            setContent(result.data.article.content);
-            setDate(formatDate(result.data.article.createdAt));
-            setIsLiked(result.data.article.liked);
-            setLikes(result.data.article.likes);
+                setTitle(result.data.article.title);
+                setTags(result.data.article.tags);
+                setContent(result.data.article.content);
+                setDate(
+                    new Date(result.data.article.createdAt).toLocaleDateString()
+                );
+                setIsLiked(result.data.article.liked);
+                setLikes(result.data.article.likes);
+            } catch (error) {
+                console.error("Error fetching article:", error);
+            }
         };
 
         fetchArticle();
     }, [id]);
 
     const handleLike = async () => {
-        console.log("handle like clicked");
+        try {
+            const result = await axios.get(
+                `${import.meta.env.VITE_BACKEND_URL}/article/like/${id}`,
+                { withCredentials: true }
+            );
 
-        const result = await axios.get(
-            `${import.meta.env.VITE_BACKEND_URL}/article/like/${id}`,
-            {
-                withCredentials: true,
+            if (result.data.status) {
+                setIsLiked(true);
+                setLikes((prevLikes) => prevLikes + 1);
             }
-        );
-
-        console.log(result);
-
-        if (result.data.status) {
-            window.location.reload();
-        }
-    };
-
-    useEffect(() => {
-        console.log(content);
-    }, [content]);
-
-    const handleTypeComplete = () => {
-        if (currentIndex < content.length - 1) {
-            setCurrentIndex(currentIndex + 1);
+        } catch (error) {
+            console.error("Error liking article:", error);
         }
     };
 
     return (
-        <div className=" bg-[#212121] text-[#F9F9F9] px-6 md:px-16 lg:px-48 py-12">
+        <div className="bg-[#212121] text-[#F9F9F9] px-6 md:px-16 lg:px-48 py-12">
             <article className="max-w-4xl mx-auto">
                 <h1 className="text-4xl font-bold mb-6 text-gray-200 leading-tight">
                     {title}
@@ -93,31 +76,17 @@ function ViewArticle() {
                 </p>
 
                 <div className="space-y-6 text-xl leading-relaxed text-gray-300">
-                    {content.slice(0, currentIndex + 1).map((paragraph, index) => (
-                        <p key={index}>
-                            <Typewriter
-                                words={[paragraph]}
-                                loop={0}
-                                cursor
-                                cursorStyle="|"
-                                typeSpeed={30} // Adjust type speed here
-                                deleteSpeed={50}
-                                delaySpeed={20}
-                                onTypeDone={handleTypeComplete} // Trigger when typing is done
-                            />
-                        </p>
+                    {content.map((paragraph, index) => (
+                        <p key={index}>{paragraph}</p>
                     ))}
                 </div>
 
-                {/* New "Like" Section */}
                 <div className="mt-12 text-center">
                     {isLiked ? (
-                        // If isLiked is true, show this message
                         <p className="text-gray-300 text-lg mb-4 font-semibold">
                             You have already liked this article.
                         </p>
                     ) : (
-                        // If isLiked is false, show the "like this article" button
                         <>
                             <p className="text-gray-300 text-lg mb-6 font-semibold">
                                 Liked the article? Show your support by liking

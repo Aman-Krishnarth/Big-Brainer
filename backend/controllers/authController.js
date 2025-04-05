@@ -96,8 +96,8 @@ const logout = async (req, res) => {
     try {
         res.clearCookie("token", {
             httpOnly: true,
-            sameSite: "Strict",
-            // secure: process.env.NODE_ENV === "production", // Ensure this is true in production
+            sameSite: "None", // Match the SameSite attribute used when setting the cookie
+            secure: process.env.NODE_ENV === "production", // Match the Secure flag
         });
 
         return res.json({
