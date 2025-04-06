@@ -4,8 +4,8 @@ import { Eye, EyeOff, ArrowLeft } from "lucide-react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { useGoogleLogin } from "@react-oauth/google";
-import { Typewriter } from 'react-simple-typewriter';
-import {  toast } from 'react-toastify';
+import { Typewriter } from "react-simple-typewriter";
+import { toast } from "react-toastify";
 
 function Signup() {
     const [email, setEmail] = useState("");
@@ -43,50 +43,63 @@ function Signup() {
     };
 
     const sendOtp = async () => {
-        if (!email || email.length === 0) {
-            toast.error("Please enter email");
-            return;
+        try {
+            if (!email || email.length === 0) {
+                toast.error("Please enter email");
+                return;
+            }
+    
+            setSendingOtp(true);
+            const result = await axios.post(
+                `${import.meta.env.VITE_BACKEND_URL}/otp/sendOtp`,
+                { email }
+            );
+            setSendingOtp(false);
+            setOtpSent(true);
+        } catch (error) {
+            console.error("Error sending OTP", error);
+            toast.error("There was an error sending the OTP. Please try again.");
+            setSendingOtp(false); // Stop the OTP sending state in case of error
         }
-
-        setSendingOtp(true);
-        const result = await axios.post(
-            `${import.meta.env.VITE_BACKEND_URL}/otp/sendOtp`,
-            { email }
-        );
-        setSendingOtp(false);
-        setOtpSent(true);
     };
-
+    
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true); // Start the loading spinner when the form is submitted
-
+    
         try {
             const result = await axios.post(
                 `${import.meta.env.VITE_BACKEND_URL}/auth/signup`,
                 { email, password, otp: otp.join(""), username },
                 { withCredentials: true }
             );
-
+    
             if (result.data.status) {
+                toast.success("User created successfully");
                 setTimeout(() => {
-                    toast.success("User created successfully");
                     navigate("/login");
                 }, 2000);
+            }else{
+                toast.error(result.data.message)
             }
         } catch (error) {
             console.error("Signup failed", error);
-            toast.error("There was an error while creating your account. Please try again.");
+            toast.error(
+                "There was an error while creating your account. Please try again."
+            );
         } finally {
             setLoading(false); // Stop the loading spinner after the API call
         }
     };
+    
 
     const responseGoogle = async (authResult) => {
         try {
             if (authResult["code"]) {
                 const result = await axios.post(
-                    `${import.meta.env.VITE_BACKEND_URL}/googleAuth/signup?code=${authResult["code"]}`,
+                    `${
+                        import.meta.env.VITE_BACKEND_URL
+                    }/googleAuth/signup?code=${authResult["code"]}`,
                     {},
                     { withCredentials: true }
                 );
@@ -119,7 +132,10 @@ function Signup() {
                 <div className="w-full max-w-7xl">
                     {/* Back to Main Page Link */}
                     <div className="text-left mb-4 hover:underline text-xl">
-                        <Link to="/" className="flex items-center text-white font-semibold">
+                        <Link
+                            to="/"
+                            className="flex items-center text-white font-semibold"
+                        >
                             <ArrowLeft className="mr-1" />
                             Back to Main Page
                         </Link>
@@ -175,7 +191,11 @@ function Signup() {
                                     <div className="grid grid-cols-[1fr_auto] justify-center items-center gap-2">
                                         {/* Password Input with Validation */}
                                         <input
-                                            type={showPassword ? "text" : "password"}
+                                            type={
+                                                showPassword
+                                                    ? "text"
+                                                    : "password"
+                                            }
                                             className="w-full p-3 mb-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
                                             placeholder="Password"
                                             name="password"
@@ -186,10 +206,16 @@ function Signup() {
 
                                         {/* Eye Icon for Password Visibility */}
                                         <div
-                                            onClick={() => setShowPassword(!showPassword)}
+                                            onClick={() =>
+                                                setShowPassword(!showPassword)
+                                            }
                                             className="cursor-pointer flex justify-center items-center"
                                         >
-                                            {showPassword ? <Eye size={28} /> : <EyeOff size={28} />}
+                                            {showPassword ? (
+                                                <Eye size={28} />
+                                            ) : (
+                                                <EyeOff size={28} />
+                                            )}
                                         </div>
                                     </div>
 
@@ -243,9 +269,15 @@ function Signup() {
                                                 className="w-10 h-10 text-center text-xl border border-gray-600 rounded-md focus:ring-2 focus:ring-blue-500 outline-none"
                                                 value={digit}
                                                 onChange={(e) =>
-                                                    handleOtpChange(index, e.target.value)
+                                                    handleOtpChange(
+                                                        index,
+                                                        e.target.value
+                                                    )
                                                 }
-                                                ref={(el) => (otpRefs.current[index] = el)}
+                                                ref={(el) =>
+                                                    (otpRefs.current[index] =
+                                                        el)
+                                                }
                                             />
                                         ))}
                                     </div>

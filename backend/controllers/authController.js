@@ -24,7 +24,6 @@ const signup = async (req, res) => {
         return res.status(200).json({
             status: true,
             message: "User created successfully",
-            // user: user,
         });
     } catch (error) {
         if (error.code === 11000) {
