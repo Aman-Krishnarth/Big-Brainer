@@ -3,6 +3,7 @@ import Article from "./Article.jsx";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import ArticleListSkeleton from "./ArticleListSkeleton.jsx";
 
 function AllArticles() {
     const [articles, setArticles] = useState([]);
@@ -137,9 +138,13 @@ function AllArticles() {
             </div>
 
             {/* Display Articles */}
-            {articles.map((article, index) => (
-                <Article article={article} number={index + 1} key={index} />
-            ))}
+            {articles.length ? (
+                articles.map((article, index) => (
+                    <Article article={article} number={index + 1} key={index} />
+                ))
+            ) : (
+                <ArticleListSkeleton />
+            )}
         </div>
     );
 }
